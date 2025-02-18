@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="LoginPage.css">
+    <link rel="signup" href="SignupPage.html">
+    <script defer src="LoginPage.js"></script>
+</head>
+<body>
+    <form id="loginForm" action="#" method="post">
+        <div class="imgcontainer">
+            <img src="logo.png" alt="LOGO" class="avatar">
+        </div>
+
+        <div class="container">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" id="username" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" id="password" required>
+
+            <!-- Show Password Checkbox -->
+            <div class="show-password">
+                <input type="checkbox" id="togglePassword">
+                <label for="togglePassword">Show Password</label>
+            </div>
+
+            <!-- Login Button -->
+            <button type="button" id="loginButton">Login</button>
+
+            <p class="Signup-link">Don't have an Account yet? <a href="SignupPage.html">Sign Up</a></p>
+
+            <!-- Error/Success Messages -->
+            <div id="errorMessage" class="message error"></div>
+            <div id="successMessage" class="message success"></div>
+
+            <script>
+                // Redirect to the signup page when the Sign Up button is clicked
+                function redirectToSignup() {
+                    window.location.href = 'SignupPage.html'; // Adjust the path if necessary
+                }
+            </script>
+        </div>
+    </form>
+</body>
+</html>
