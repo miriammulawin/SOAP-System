@@ -3,8 +3,8 @@
 
     $servername = "localhost";
     $username = "root";
-    $dbname = "medicalsystem";
-    $password = "Password123";
+    $dbname = "MedicalSystem";
+    $password = "12345";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
