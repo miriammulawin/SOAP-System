@@ -27,14 +27,24 @@
 
             if ($user['Password'] == $password) {
                 $_SESSION['user_id'] = $user['AuthorizeUserID'];
-                $_SESSION['user_name'] = $user['NameUser'];
+                $_SESSION['user_first_name'] = $user['FirstName'];
+                $_SESSION['user_last_name'] = $user['LastName'];
 
-                echo "<script>alert('Login successful! Welcome, " . $user['NameUser'] . "');</script>";
-            } else {
-                echo "<script>alert('Incorrect password.');</script>";
+                echo "<script>
+                            alert('Login successful! Welcome, " . $user['FirstName'] . ' ' . $user['LastName'] . "'); 
+                            window.location.href='setting.php';
+                      </script>";
+            } 
+            else {
+                echo "<script>
+                         alert('Incorrect password.');
+                      </script>";
             }
-        } else {
-             echo "<script>alert('User with that email does not exist.');</script>";
+        } 
+        else {
+             echo "<script>
+                        alert('User with that email does not exist.');
+                   </script>";
         }
     }
 ?>
