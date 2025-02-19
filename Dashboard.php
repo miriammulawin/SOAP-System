@@ -118,6 +118,7 @@
 
         aside ul a:hover {
             background-color: #1D70A0;
+            color:white;
         }
 
         aside ul a i {
@@ -178,7 +179,7 @@
         }
 
         .panel .right-section i:hover {
-            color: #1D70A0;
+            color: white;
         }
 
         .test-options {
@@ -204,6 +205,7 @@
 
         .test-options button:hover {
             background-color: #02457A;
+            color:white;
         }
 
         .content{
