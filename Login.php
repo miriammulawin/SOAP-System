@@ -77,7 +77,7 @@
                         justify-content: center;
                         align-items: center;
                         height: 100vh;
-                        background-image: url('../SOAP-System/Images/Login-BG.jpg');
+                        background-image: url('../SOAP/Images/Login-BG.jpg');
                         background-repeat: no-repeat;
                         background-size: cover;
                     }
