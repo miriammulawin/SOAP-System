@@ -131,6 +131,10 @@
                     margin-top: 18px;
                     margin-left: 18px;
                 }
+                
+                .content ul {
+                    margin-left: 25px;  
+                }
 
                 .content img {
                     width: 32px;
@@ -152,6 +156,7 @@
                     color: #022E5F;
                     margin-left: 25px;
                     font-size: 18px;
+                    font-weight: bold;
                 }
 
                 .content a:hover {
@@ -198,24 +203,27 @@
                     margin-right: 30px;
                 }
 
-                .nav-setting img {
-                    width: 29.05px;
-                    height: 30.87px;
+                .notif img {
+                    width: 24px;
+                    height: 24px;
+                    margin-right: 10px;
+                    margin-top: -5px;
                 }
 
                 #search {
-                    width: 278px;
-                    height: 35px;
+                    width: 318px;
+                    height: 40px;
                     text-align: center;
+                    font-size: 20px;
+                    border-radius: 10px;
                     margin-bottom: 10px;
-                    margin-left: 25px;
-                    margin-right: 45px;
+                    margin-right: 35px;
                     border: 1px solid #022E5F;
                 }
 
                 .nav-setting button{
                     position: absolute;
-                    margin-left: -25px;
+                    margin-left: -15px;
                     text-align: center;
                     background-color: transparent;
                     border: none;
@@ -273,6 +281,10 @@
                     border: 1px solid black;
                 }
 
+                .setting-content {
+                    display: none;
+                }
+
                 .resources {
                     width: 100%;
                     height: 128px;
@@ -307,6 +319,7 @@
                 }
 
                 .account-content {
+                    display: none;
                     width: 100%;
                     height: 100%;
                     margin-left:20px;
@@ -320,138 +333,146 @@
 
                 .profile {
                     width: 85%;
-                    height: 250px;
+                    height: auto; 
+                    margin-bottom: 20px; 
                 }
 
                 .profile h3 {
                     margin-left: 35px;
+                    margin-top: -20px;
                     font-size: 20px;
-                    font-weight: 30px;
+                    font-weight: bold; 
                 }
 
                 .profile p {
                     margin-left: 35px;
-                    margin-bottom: 10px;
+                    margin-bottom: 10px; 
                     font-size: 15px;
                 }
 
                 .profile label {
-                    margin-bottom: 5px;
+                    margin-bottom: -10px;
                     font-size: 15px;
                     font-weight: bold;
+                    display: block; 
                 }
 
-                .first-name {
-                    float: left;
+                .name-fields {
+                    display: flex; 
                     margin-left: 35px;
-                    margin-right: 25px;
+                    margin-bottom: 15px; 
+                    gap: 25px;
                 }
 
-                .first-name input {
-                    width: 288px;
-                    height: 43px;
-                    border-radius: 10px;
-                    border: none;
-                }
-
+                .first-name,
                 .last-name {
-                    margin-bottom: 20px;
-                    position: relative;
+                    flex: 1; 
                 }
 
+                .first-name input,
                 .last-name input {
-                    width: 288px;
+                    width: 100%; 
                     height: 43px;
                     border-radius: 10px;
-                    border: none;
+                    border: 1px solid #ccc; 
+                    padding: 10px; 
+                    font-size: 14px;
+                    box-sizing: border-box;
+                    margin-top: -15px;
                 }
 
                 .about {
                     margin-left: 35px;
-                    margin-right: 25px;
+                    margin-bottom: 20px; 
                 }
 
                 .about input {
-                    width: 599px;
+                    width: 599px; 
                     height: 53px;
                     border-radius: 10px;
-                    border: none;
+                    border: 1px solid #ccc; 
+                    padding: 10px; 
+                    font-size: 14px;
+                    box-sizing: border-box; 
+                    margin-top: -20px;
                 }
 
                 .line img {
-                    display: flex;
-                    margin-top: -10px;
-                    margin-left: 35px
+                    display: block;
+                    margin: 20px 0;
+                    margin-left: 35px;
                 }
 
                 .info {
                     width: 85%;
-                    height: 180px;
-                    margin-top: 10px;
+                    height: auto; 
+                    margin-top: 20px; 
                 }
 
                 .info h3 {
                     margin-left: 35px;
                     font-size: 20px;
-                    font-weight: 30px;
+                    font-weight: bold; 
                 }
 
                 .info p {
                     margin-left: 35px;
-                    margin-bottom: 20px;
+                    margin-bottom: 20px; 
                     font-size: 15px;
                 }
 
                 .info label {
-                    margin-bottom: 5px;
+                    margin-bottom: -10px;
                     font-size: 15px;
                     font-weight: bold;
+                    display: block; 
                 }
 
-                .email {
-                    float: left;
+                .contact-fields {
+                    display: flex; 
                     margin-left: 35px;
-                    margin-right: 25px;
+                    margin-bottom: 20px; 
+                    gap: 25px; 
                 }
 
-                .email input {
-                    width: 288px;
-                    height: 43px;
-                    border-radius: 10px;
-                    border: none;
-                }
-
+                .email,
                 .number {
-                    margin-bottom: 20px;
-                    position: relative;
+                    flex: 1; 
                 }
 
+                .email input,
                 .number input {
-                    width: 288px;
+                    width: 100%; 
                     height: 43px;
                     border-radius: 10px;
+                    border: 1px solid #ccc; 
+                    padding: 10px; 
+                    font-size: 14px;
+                    box-sizing: border-box; 
+                    margin-top: -20px
+                }
+
+                /* Buttons */
+                #save-btn,
+                #cancel-btn {
+                    padding: 10px 30px;
+                    border-radius: 20px;
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: white;
                     border: none;
+                    cursor: pointer;
+                    margin-top: 20px; 
                 }
 
                 #save-btn {
-                    padding: 5px 30px 5px 30px;
-                    margin-left: 420px;
-                    border-radius: 20px;
-                    background-color: #022E5F; 
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: white;
-                    border: none;
+                    background-color: #022E5F;
+                    margin-left: 435px;
                 }
 
-                 #cancel-btn {
-                    padding: 5px 30px 5px 30px;
-                    border-radius: 20px;
-                    background-color: #97CADB; 
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: white;
-                    border: none;
+                #cancel-btn {
+                    background-color: #97CADB;
+                    margin-left: 10px; 
                 }
 
         </style>
@@ -489,7 +510,7 @@
                                         <li><a href="">Assessment</a></li>
 
                                         <img src="../SOAP-System/Images/setting.png" alt="Setting Logo">
-                                        <li><a href="">Setting</a></li>
+                                        <li><a href="javascript:void(0);" onclick="showMainContent('setting')">Setting</a></li>
 
                                         <img src="../SOAP-System/Images/logout.png" alt="Logout Logo">
                                         <li><a href="javascript:void(0);" onclick="confirmLogout()">Logout</a></li>
@@ -503,11 +524,13 @@
                                         <p>Settings</p>
 
                                         <div class="nav-setting">
-                                                <a href=""><img src="../SOAP-System/Images/notification.png" alt="Notification"></a>
-
                                                 <div class="search-setting">
-                                                <input id="search" type="search" name="" id="">
-                                                <button><img src="../SOAP-System/Images/search.png" alt="Search"></button>
+                                                        <input id="search" type="search" name="Search" placeholder="Search">
+                                                        <button><img src="../SOAP-System/Images/search.png" alt="Search"></button>
+                                                </div>
+                                                
+                                                <div class="notif">
+                                                    <a href=""><img src="../SOAP-System/Images/notification.png" alt="Notification"></a>
                                                 </div>
                                         </div>
                                 </div>
@@ -517,7 +540,7 @@
                                             <ul>
                                                     <div class="account">
                                                         <img src="../SOAP-System/Images/profile.png" alt="Profile">
-                                                            <a href="">Account</a>
+                                                            <a href="javascript:void(0);" onclick="showContent('account')">Account</a>
                                                             <p>
                                                                 Update your personal info, security preferences, and communication settings for a personalized and 
                                                                 secure experience.
@@ -563,7 +586,7 @@
                                         </div>
 
                                         <div class="setting-pick-content">
-                                                <div class="account-content">
+                                                <div class="account-content" id="account-content">
                                                         <form action="">
                                                                 <h1>Account</h1>
 
@@ -571,15 +594,17 @@
                                                                     <h3>Profile</h3>
                                                                     <p>This information will be displayed publicly so be careful what you share.</p>
 
-                                                                    <div class="first-name">
-                                                                        <label for="firstname">First Name:</label><br>
-                                                                        <input type="text" name="firstname" id="first-name">
-                                                                    </div>
+                                                                    <div class="name-fields">
+                                                                        <div class="first-name">
+                                                                            <label for="first-name">First Name:</label><br>
+                                                                            <input type="text" id="first-name" placeholder="First Name">
+                                                                        </div>
 
-                                                                    <div class="last-name">
-                                                                        <label for="lastname">Last Name:</label><br>
-                                                                        <input type="text" name="lastname" id="last-name">
-                                                                    </div>
+                                                                        <div class="last-name">
+                                                                            <label for="last-name">Last Name:</label><br>
+                                                                            <input type="text" id="last-name" placeholder="Last Name">
+                                                                        </div>
+                                                                    </div>  
 
                                                                     <div class="about">
                                                                         <label for="about">About:</label><br>
@@ -595,14 +620,16 @@
                                                                     <h3>Personal Information</h3>
                                                                     <p>This information will be displayed publicly so be careful what you share.</p>
 
-                                                                    <div class="email">
-                                                                        <label for="">Email Address:</label><br>
-                                                                        <input type="email" name="" id="">
-                                                                    </div>
-
-                                                                    <div class="number">
-                                                                        <label for="">Phone Number::</label><br>
-                                                                        <input type="number" name="" id="">
+                                                                    <div class="contact-fields">
+                                                                        <div class="email">
+                                                                            <label for="email">Email Address:</label><br>
+                                                                            <input type="email" id="email" placeholder="Email Address">
+                                                                        </div>
+                                                                        
+                                                                        <div class="number">
+                                                                            <label for="phone-number">Phone Number:</label><br>
+                                                                            <input type="text" id="phone-number" placeholder="Phone Number">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
 
@@ -617,10 +644,49 @@
     </body>
 
     <script>
-            function confirmLogout() {
-                if (confirm("Are you sure you want to logout?")) {
-                    window.location.href = "?action=logout&confirm=yes";
-                    alert('Successful Logout!');
+                function confirmLogout() {
+                    if (confirm("Are you sure you want to logout?")) {
+                        window.location.href = "?action=logout&confirm=yes";
+                        alert('Successful Logout!');
+                    }
+                }
+
+                function showMainContent(contentType) {
+                // When Setting is clicked in sidebar
+                if (contentType === 'setting') {
+                    // Show the setting container
+                    document.querySelector('.setting').style.display = 'block';
+                    
+                    // Show only the setting menu (left side)
+                    document.querySelector('.setting-content').style.display = 'block';
+                    
+                    // Hide all content sections in the right panel
+                    var contentSections = document.querySelectorAll('.setting-pick-content > div');
+                    for (var i = 0; i < contentSections.length; i++) {
+                        contentSections[i].style.display = 'none';
+                    }
+                    
+                    // Initially hide the right panel container itself
+                    document.querySelector('.setting-pick-content').style.display = 'none';
+                }
+            }
+
+            function showContent(contentType) {
+                // When a specific setting is clicked in the left menu
+                
+                // First, show the right panel container
+                document.querySelector('.setting-pick-content').style.display = 'block';
+                
+                // Then, hide all specific content sections
+                var contentSections = document.querySelectorAll('.setting-pick-content > div');
+                for (var i = 0; i < contentSections.length; i++) {
+                    contentSections[i].style.display = 'none';
+                }
+                
+                // Show only the selected content section
+                var selectedContent = document.getElementById(contentType + '-content');
+                if (selectedContent) {
+                    selectedContent.style.display = 'block';
                 }
             }
     </script>
