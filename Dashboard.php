@@ -44,57 +44,50 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 220px; 
+            width: 200px; 
             height: 100vh; 
-            background-color: #ffffff;
+            background-color: white;
             padding-top: 60px; 
             color: #333333;
             font-size: 18px;
             padding-left: 10px;
-            margin-left: 1vh;
-            margin-top: 10vh;
-            padding-left: 10px;
+          
+            padding-right: 10px;
         }
 
-        .holder {
-            background-color: #E3E8ED;
-            height: 65%;
-            width: 85%;
-            padding: 10px;
-            margin-top: 2vh;
-            margin-left: 0.2vh;
-         
-        }
+    
 
         .profile {
-            background-color: #cad0d5;
+           
             height: 12%;
-            width: 85%; 
+            width: 88%; 
             padding: 10px;
             padding-top: 10px;
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            margin-top: -8vh;
-            margin-left: 0.2vh;
+            border: 2px solid #E6EAEF;
+            
         }
 
         .profile i {
             font-size: 50px;
+            margin-left: -5px;
+
         }
 
         .profile .fa-pen-to-square {
             position: absolute;
-            top: 20px;
-            right: 25px;
+            top: 1px;
+            right: 2px;
             font-size: 20px;
             color: #02457A;
             cursor: pointer;
         }
 
         .profile p {
-            margin-left: 10px;
-            font-size: 13px;
+            margin-left: 8px;
+            font-size: 12px;
         }
 
         aside ul {
@@ -104,6 +97,7 @@
         }
 
         aside ul a {
+             border: 2px solid #E6EAEF;
             display: flex;
             align-items: center;
             padding: 10px 20px;
@@ -127,15 +121,16 @@
 
         main {
             margin-top: 60px; 
-            margin-left: 246px; 
+            margin-left: 240px; 
             background-color: white;
-            width: 159.3vh;
+            width: 160vh;
             height: 100vh;
             padding: 20px;
+            radius
         }
 
-       
         .panel {
+            border-radius:10px;
             position: relative;
             top: 0;
             width: 98%;
@@ -208,16 +203,18 @@
             color:white;
         }
 
-        .content{
+        .dashboard-content{
             background-size: cover;
-            background-image: url(../SOAP/Images/Login-BG.jpg); // remove it for assestment/ records/ appointment
-            width: 161vh;
-            height: 80vh;
             margin-left: -1vh;
             margin-top:5px;
         }
 
-        
+        .bg{
+            
+            width: 161vh;
+            height: 80vh;
+        }
+
     </style>
 </head>
 <body>
@@ -232,19 +229,18 @@
             <p>admin101@gmail.com</p>
             <i class="fa-regular fa-pen-to-square"></i>
         </div>
-        <div class="holder">
+        
             <ul>
-                <li><a href="#"><i class="material-icons-outlined">dashboard</i> Dashboard</a></li>
-                <li><a href="#"><i class="material-icons-outlined">description</i> Record</a></li>
-                <li><a href="#"><i class="material-icons-outlined">assessment</i> Assessment</a></li>
-                <li><a href="#"><i class="material-icons-outlined">calendar_today</i> Appointment</a></li>
-                <li><a href="#"><i class="material-icons-outlined">settings</i> Settings</a></li>
+                <li><a href="javascript:void(0);" onclick="showMainContent('dashboard')"><i class="material-icons-outlined">dashboard</i> Dashboard</a></li>
+                <li><a href="javascript:void(0);" onclick="showMainContent('record')"><i class="material-icons-outlined">description</i> Record</a></li>
+                <li><a href="javascript:void(0);" onclick="showMainContent('assessment')"><i class="material-icons-outlined">assessment</i> Assessment</a></li>
+                <li><a href="javascript:void(0);" onclick="showMainContent('appointment')"> <i class="material-icons-outlined">calendar_today</i> Appointment</a></li>
+                <li><a href="javascript:void(0);" onclick="showMainContent('settings')"><i class="material-icons-outlined">settings</i> Settings</a></li>
                 <li><a href="#"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
             </ul>
-        </div>
+       
     </aside>
 
-    
     <main>
         <!-- Panel Section -->
         <div class="panel">
@@ -265,10 +261,62 @@
             <button>Cardiovascular</button>
         </div>
 
-         <!-- Content Section -->
-        <div class = "content">
-            
-        </div>
+
+<div class = "content">
+
+
+<div class="dashboard-content" id="dashboard-content" style="display: none;">
+    <img class="bg" src="../SOAP/Images/Login-BG.jpg" alt="">
+</div>
+
+<div id="record-content" class="appointment-content" style="display: none;">
+    <h3>Records</h3>
+    <div></div>
+</div>
+
+<div id="appointment-content" class="appointment-content" style="display: none;">
+    <h3>Appointments</h3>
+    <div></div>
+</div>
+
+<div id="assessment-content" class="appointment-content" style="display: none;">
+    <h3>Assessment</h3>
+    <div></div>
+</div>
+
+<div id="settings-content" class="appointment-content" style="display: none;">
+    <h3>Settings</h3>
+    <div></div>
+</div>
+
+</div>
+
     </main>
+
+    <script>
+function showMainContent(contentType) {
+   
+    var allContent = document.querySelectorAll('.dashboard-content, .appointment-content, .assessment-content, .record-content, .settings-content');
+    allContent.forEach(function(content) {
+        content.style.display = 'none';
+    });
+    if (contentType === 'dashboard') {
+        var dashboardContent = document.getElementById('dashboard-content');
+        dashboardContent.style.display = 'block';
+        dashboardContent.style.backgroundImage = "url('dashboard-image.jpg')"; // replace with your image path
+    } else if (contentType === 'appointment') {
+        document.getElementById('appointment-content').style.display = 'block';
+    } else if (contentType === 'assessment') {
+        document.getElementById('assessment-content').style.display = 'block';
+    } else if (contentType === 'record') {
+        document.getElementById('record-content').style.display = 'block';
+    } else if (contentType === 'settings') {
+        document.getElementById('settings-content').style.display = 'block';
+    }
+}
+
+
+
+    </script>
 </body>
 </html>
