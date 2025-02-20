@@ -42,6 +42,79 @@
         header("Location: login.php");
         exit();
     }
+
+    function fetchUserData($userId, $conn) {
+        $sql = "SELECT * FROM AuthorizeUser WHERE AuthorizeUserID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        } else {
+            return false;
+        }
+    }
+
+    $userId = $_SESSION['user_id'];
+    $userData = fetchUserData($userId, $conn);
+
+    if (!$userData) {
+        $fullName = "User";
+    } else {
+        $fullName = $userData['FirstName'];
+        if (!empty($userData['LastName'])) {
+            $fullName .= " " . $userData['LastName'];
+        }
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
+        $firstName = trim($_POST['first_name']);
+        $lastName = trim($_POST['last_name']);
+        $about = trim($_POST['about']);
+        $email = trim($_POST['email']);
+        $phoneNumber = trim($_POST['phone_number']);
+        
+        $errors = [];
+        if (empty($firstName)) {
+            $errors[] = "First name is required";
+        }
+        
+        if (empty($email)) {
+            $errors[] = "Email is required";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "Invalid email format";
+        }
+        
+        if (empty($phoneNumber)) {
+            $errors[] = "Phone number is required";
+        }
+        
+        if (empty($errors)) {
+            $updateSql = "UPDATE AuthorizeUser SET FirstName = ?, LastName = ?, Email = ?, Number = ?, About = ? WHERE AuthorizeUserID = ?";
+            $updateStmt = $conn->prepare($updateSql);
+            $updateStmt->bind_param("sssssi", $firstName, $lastName, $email, $phoneNumber, $about, $userId);
+            
+            if ($updateStmt->execute()) {
+                $_SESSION['update_success'] = true;
+                
+                $userData = fetchUserData($userId, $conn);
+                $fullName = $userData['FirstName'];
+                if (!empty($userData['LastName'])) {
+                    $fullName .= " " . $userData['LastName'];
+                }
+                
+                echo "<script> 
+                        alert('Successful Update!'); 
+                        window.location.href='setting.php';
+                    </script>";
+                exit();
+            } else {
+                $updateError = "Failed to update profile: " . $conn->error;
+            }
+        }
+    }
     $conn->close();
 ?>
 
@@ -171,6 +244,12 @@
                     margin-top: 20px;
                     margin-left: 15px;
                 }
+
+                .setting-container {
+                    width: 100%;
+                    height: 100%;
+                    display: none;
+                }
                 
                 .header-setting {
                     background-color: #C2CDD9;
@@ -236,7 +315,8 @@
                 }
 
                 .setting {
-                    background-color: #C2CDD9;
+                    display: none;
+                    background-color:#C2CDD9;
                     width: 98%;
                     height: 84%;
                     margin-left: 13px;
@@ -244,6 +324,7 @@
                 }
 
                 .setting-content {
+                    display: none;
                     width: 40%;
                     height: 100%;
                     float: left;
@@ -452,7 +533,6 @@
                     margin-top: -20px
                 }
 
-                /* Buttons */
                 #save-btn,
                 #cancel-btn {
                     padding: 10px 30px;
@@ -474,7 +554,6 @@
                     background-color: #97CADB;
                     margin-left: 10px; 
                 }
-
         </style>
     </head>
     
@@ -519,123 +598,129 @@
                     </aside>
 
                     <section>
-                                <div class="header-setting">
-                                        <img src="../SOAP-System/Images/fill-setting.png" alt="Setting Logo">
-                                        <p>Settings</p>
+                                <div class="dashboard">
 
-                                        <div class="nav-setting">
-                                                <div class="search-setting">
-                                                        <input id="search" type="search" name="Search" placeholder="Search">
-                                                        <button><img src="../SOAP-System/Images/search.png" alt="Search"></button>
-                                                </div>
-                                                
-                                                <div class="notif">
-                                                    <a href=""><img src="../SOAP-System/Images/notification.png" alt="Notification"></a>
-                                                </div>
-                                        </div>
                                 </div>
                                 
-                                <div class="setting">
-                                        <div class="setting-content">
-                                            <ul>
-                                                    <div class="account">
-                                                        <img src="../SOAP-System/Images/profile.png" alt="Profile">
-                                                            <a href="javascript:void(0);" onclick="showContent('account')">Account</a>
-                                                            <p>
-                                                                Update your personal info, security preferences, and communication settings for a personalized and 
-                                                                secure experience.
-                                                            </p>
-                                                    </div>
+                                <div class="setting-container">
+                                            <div class="header-setting">
+                                                <img src="../SOAP-System/Images/fill-setting.png" alt="Setting Logo">
+                                                <p>Settings</p>
 
-                                                    <div class="notification">
-                                                        <img src="../SOAP-System/Images/notification-black.png" alt="Notification">
-                                                            <a href="">Notifications</a>
-                                                            <p>
-                                                                Customize how and when you receive alerts, including appointment reminders, updates, 
-                                                                and clinic notifications.
-                                                            </p>
-                                                    </div>
-
-                                                    <div class="security">
-                                                        <img src="../SOAP-System/Images/lock.png" alt="Security">
-                                                            <a href="">Security</a>
-                                                            <p>
-                                                                Enhance your account security by updating your password, enabling two-factor authentication, and reviewing 
-                                                                login activity.
-                                                            </p>
-                                                    </div>
-
-                                                    <div class="appearance">
-                                                        <img src="../SOAP-System/Images/appearance.png" alt="Appearance">
-                                                            <a href="">Appearance</a>
-                                                            <p>
-                                                                Customize a colors, fonts, logos, and layout to reflect the brand and ensure a professional, user-friendly design.
-                                                            </p>
-                                                    </div>
-
-                                                    <div class="resources">
-                                                        <img src="../SOAP-System/Images/setting-black.png" alt="">
-                                                            <a href="">Additional Resources</a>
-                                                            <p>
-                                                                Extra tools, links, and materials to support and enhance the user experience on the clinic website, providing helpful 
-                                                                information for patients and visitors.
-                                                            </p>
-                                                    </div>
-                                            </ul>
-
-                                        </div>
-
-                                        <div class="setting-pick-content">
-                                                <div class="account-content" id="account-content">
-                                                        <form action="">
-                                                                <h1>Account</h1>
-
-                                                                <div class="profile">
-                                                                    <h3>Profile</h3>
-                                                                    <p>This information will be displayed publicly so be careful what you share.</p>
-
-                                                                    <div class="name-fields">
-                                                                        <div class="first-name">
-                                                                            <label for="first-name">First Name:</label><br>
-                                                                            <input type="text" id="first-name" placeholder="First Name">
-                                                                        </div>
-
-                                                                        <div class="last-name">
-                                                                            <label for="last-name">Last Name:</label><br>
-                                                                            <input type="text" id="last-name" placeholder="Last Name">
-                                                                        </div>
-                                                                    </div>  
-
-                                                                    <div class="about">
-                                                                        <label for="about">About:</label><br>
-                                                                        <input type="text" name="about" id="about">
-                                                                    </div>
+                                                <div class="nav-setting">
+                                                        <div class="search-setting">
+                                                                <input id="search" type="search" name="Search" placeholder="Search">
+                                                                <button><img src="../SOAP-System/Images/search.png" alt="Search"></button>
+                                                        </div>
+                                                        
+                                                        <div class="notif">
+                                                            <a href=""><img src="../SOAP-System/Images/notification.png" alt="Notification"></a>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="setting">
+                                                    <div class="setting-content">
+                                                        <ul>
+                                                                <div class="account">
+                                                                    <img src="../SOAP-System/Images/profile.png" alt="Profile">
+                                                                        <a href="javascript:void(0);" onclick="showContent('account')">Account</a>
+                                                                        <p>
+                                                                            Update your personal info, security preferences, and communication settings for a personalized and 
+                                                                            secure experience.
+                                                                        </p>
                                                                 </div>
 
-                                                                <div class="line">
-                                                                        <img src="../SOAP-System/Images/line.png" alt="Line">
+                                                                <div class="notification">
+                                                                    <img src="../SOAP-System/Images/notification-black.png" alt="Notification">
+                                                                        <a href="">Notifications</a>
+                                                                        <p>
+                                                                            Customize how and when you receive alerts, including appointment reminders, updates, 
+                                                                            and clinic notifications.
+                                                                        </p>
                                                                 </div>
 
-                                                                <div class="info">
-                                                                    <h3>Personal Information</h3>
-                                                                    <p>This information will be displayed publicly so be careful what you share.</p>
-
-                                                                    <div class="contact-fields">
-                                                                        <div class="email">
-                                                                            <label for="email">Email Address:</label><br>
-                                                                            <input type="email" id="email" placeholder="Email Address">
-                                                                        </div>
-                                                                        
-                                                                        <div class="number">
-                                                                            <label for="phone-number">Phone Number:</label><br>
-                                                                            <input type="text" id="phone-number" placeholder="Phone Number">
-                                                                        </div>
-                                                                    </div>
+                                                                <div class="security">
+                                                                    <img src="../SOAP-System/Images/lock.png" alt="Security">
+                                                                        <a href="">Security</a>
+                                                                        <p>
+                                                                            Enhance your account security by updating your password, enabling two-factor authentication, and reviewing 
+                                                                            login activity.
+                                                                        </p>
                                                                 </div>
 
-                                                                <button id="save-btn" type="button">Save</button>
-                                                                <button id="cancel-btn" type="button">Cancel</button>
-                                                        </form>
+                                                                <div class="appearance">
+                                                                    <img src="../SOAP-System/Images/appearance.png" alt="Appearance">
+                                                                        <a href="">Appearance</a>
+                                                                        <p>
+                                                                            Customize a colors, fonts, logos, and layout to reflect the brand and ensure a professional, user-friendly design.
+                                                                        </p>
+                                                                </div>
+
+                                                                <div class="resources">
+                                                                    <img src="../SOAP-System/Images/setting-black.png" alt="">
+                                                                        <a href="">Additional Resources</a>
+                                                                        <p>
+                                                                            Extra tools, links, and materials to support and enhance the user experience on the clinic website, providing helpful 
+                                                                            information for patients and visitors.
+                                                                        </p>
+                                                                </div>
+                                                        </ul>
+
+                                                </div>
+
+                                                <div class="setting-pick-content">
+                                                        <div class="account-content" id="account-content">
+                                                                <form action="" method="POST">
+                                                                        <h1>Account</h1>
+
+                                                                        <div class="profile">
+                                                                            <h3>Profile</h3>
+                                                                            <p>This information will be displayed publicly so be careful what you share.</p>
+
+                                                                            <div class="name-fields">
+                                                                                <div class="first-name">
+                                                                                    <label for="first-name">First Name:</label><br>
+                                                                                    <input type="text" id="first-name" placeholder="First Name" name="first_name" value="<?php echo htmlspecialchars($userData['FirstName'] ?? ''); ?>">
+                                                                                </div>
+
+                                                                                <div class="last-name">
+                                                                                    <label for="last-name">Last Name:</label><br>
+                                                                                    <input type="text" id="last-name" placeholder="Last Name" name="last_name" value="<?php echo htmlspecialchars($userData['LastName'] ?? ''); ?>">
+                                                                                </div>
+                                                                            </div>  
+
+                                                                            <div class="about">
+                                                                                <label for="about">About:</label><br>
+                                                                                <input type="text" name="about" id="about" value="<?php echo htmlspecialchars($userData['About'] ?? ''); ?>">
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="line">
+                                                                                <img src="../SOAP-System/Images/line.png" alt="Line">
+                                                                        </div>
+
+                                                                        <div class="info">
+                                                                            <h3>Personal Information</h3>
+                                                                            <p>This information will be displayed publicly so be careful what you share.</p>
+
+                                                                            <div class="contact-fields">
+                                                                                <div class="email">
+                                                                                    <label for="email">Email Address:</label><br>
+                                                                                    <input type="email" id="email" placeholder="Email Address" name="email" value="<?php echo htmlspecialchars($userData['Email'] ?? ''); ?>">
+                                                                                </div>
+                                                                                
+                                                                                <div class="number">
+                                                                                    <label for="phone-number">Phone Number:</label><br>
+                                                                                    <input type="text" id="phone-number" name="phone_number" placeholder="Phone Number" value="<?php echo htmlspecialchars($userData['Number'] ?? ''); ?>">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <button id="save-btn" type="submit" name="update_profile">Save</button>
+                                                                        <button id="cancel-btn" type="button">Cancel</button>
+                                                                </form>
+                                                        </div>
                                                 </div>
                                         </div>
                                 </div>
@@ -644,50 +729,116 @@
     </body>
 
     <script>
-                function confirmLogout() {
+            function confirmLogout() {
                     if (confirm("Are you sure you want to logout?")) {
                         window.location.href = "?action=logout&confirm=yes";
                         alert('Successful Logout!');
                     }
                 }
 
-                function showMainContent(contentType) {
-                // When Setting is clicked in sidebar
+            function showMainContent(contentType) {
                 if (contentType === 'setting') {
-                    // Show the setting container
+                    document.querySelector('.setting-container').style.display = 'block';
                     document.querySelector('.setting').style.display = 'block';
                     
-                    // Show only the setting menu (left side)
                     document.querySelector('.setting-content').style.display = 'block';
                     
-                    // Hide all content sections in the right panel
                     var contentSections = document.querySelectorAll('.setting-pick-content > div');
                     for (var i = 0; i < contentSections.length; i++) {
                         contentSections[i].style.display = 'none';
                     }
                     
-                    // Initially hide the right panel container itself
                     document.querySelector('.setting-pick-content').style.display = 'none';
                 }
             }
 
             function showContent(contentType) {
-                // When a specific setting is clicked in the left menu
                 
-                // First, show the right panel container
                 document.querySelector('.setting-pick-content').style.display = 'block';
                 
-                // Then, hide all specific content sections
                 var contentSections = document.querySelectorAll('.setting-pick-content > div');
                 for (var i = 0; i < contentSections.length; i++) {
                     contentSections[i].style.display = 'none';
                 }
                 
-                // Show only the selected content section
                 var selectedContent = document.getElementById(contentType + '-content');
                 if (selectedContent) {
                     selectedContent.style.display = 'block';
                 }
             }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                if (window.location.search.includes('update=success')) {
+                    showMainContent('setting');
+                    showContent('account');
+                }
+                
+                const saveButton = document.getElementById('save-btn');
+                if (saveButton) {
+                    saveButton.addEventListener('click', function(e) {
+                        const firstName = document.getElementById('first-name').value.trim();
+                        const email = document.getElementById('email').value.trim();
+                        const phoneNumber = document.getElementById('phone-number').value.trim();
+                        let hasErrors = false;
+                        let errorMessages = [];
+                        
+                        if (!firstName) {
+                            errorMessages.push("First name is required");
+                            hasErrors = true;
+                        }
+                        
+                        if (!email) {
+                            errorMessages.push("Email is required");
+                            hasErrors = true;
+                        } 
+                        else if (!isValidEmail(email)) {
+                            errorMessages.push("Invalid email format");
+                            hasErrors = true;
+                        }
+
+                        function isValidEmail(email) {
+                            let atSymbol = email.indexOf("@");
+                            let dotSymbol = email.lastIndexOf(".");
+                            
+                            if (atSymbol < 1 || dotSymbol < atSymbol + 2 || dotSymbol + 2 >= email.length) {
+                                return false; 
+                            }
+                            return true; 
+                        }
+                        
+                        if (!phoneNumber) {
+                            errorMessages.push("Phone number is required");
+                            hasErrors = true;
+                        }
+                        
+                        if (hasErrors) {
+                            e.preventDefault();
+                            alert(errorMessages.join("\n"));
+                            return false;
+                        }
+                    });
+                }
+                
+                const cancelButton = document.getElementById('cancel-btn');
+                if (cancelButton) {
+                    cancelButton.addEventListener('click', function(e) {
+                        const formFields = document.querySelectorAll('.account-content input');
+                        let formChanged = false;
+                        
+                        formFields.forEach(field => {
+                            if (field.defaultValue !== field.value) {
+                                formChanged = true;
+                            }
+                        });
+                        
+                        if (formChanged) {
+                            if (!confirm("Are you sure you want to discard your changes?")) {
+                                e.preventDefault();
+                                return false;
+                            }
+                        }
+                    });
+                }
+            });
     </script>
 </html>
