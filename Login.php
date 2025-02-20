@@ -1,3 +1,54 @@
+<?php
+    session_start();  
+
+    $servername = "localhost";
+    $username = "root";
+    $dbname = "MedicalSystem";
+    $password = "12345";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $sql = "SELECT * FROM AuthorizeUser WHERE Email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email); 
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+
+            if ($user['Password'] == $password) {
+                $_SESSION['user_id'] = $user['AuthorizeUserID'];
+                $_SESSION['user_first_name'] = $user['FirstName'];
+                $_SESSION['user_last_name'] = $user['LastName'];
+
+                echo "<script>
+                            alert('Login successful! Welcome, " . $user['FirstName'] . ' ' . $user['LastName'] . "'); 
+                            window.location.href='setting.php';
+                      </script>";
+            } 
+            else {
+                echo "<script>
+                         alert('Incorrect password.');
+                      </script>";
+            }
+        } 
+        else {
+             echo "<script>
+                        alert('User with that email does not exist.');
+                   </script>";
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
         <head>
@@ -138,7 +189,7 @@
         <body>
                 <main>
                         <section class="loginForm">
-                                <form id="login-form">
+                                <form id="login-form" action="login.php" method="POST">
                                     <div class="intro">
                                         <h2>Welcome Back!</h2>
                                         <h1>MEDICARE</h1>
@@ -147,20 +198,20 @@
 
                                     <div class="input-box">
                                         <label for="text">Email</label>
-                                        <input id="login-username" type="text" required>
+                                        <input id="login-username" type="text" name="email" required>
                                         <i class='bx bxs-user'></i>
                                     </div>
-                        
+
                                     <div class="input-box">
                                         <label for="password">Password</label>
-                                        <input id="login-password" type="password" required>
+                                        <input id="login-password" type="password" name="password" required>
                                         <i class='bx bxs-lock-alt'></i>
                                     </div>
-                        
+
                                     <div class="forgot">
                                         <a href="#">Forgot password?</a>
                                     </div>
-                        
+
                                     <button type="submit" class="btn">Login</button>
                                 </form>
                         </section>
