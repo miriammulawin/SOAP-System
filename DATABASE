@@ -1,4 +1,4 @@
-CREATE DATABASE MedicalSystem;
+
 USE MedicalSystem;
 
 CREATE TABLE AuthorizeUser (
@@ -28,6 +28,15 @@ CREATE TABLE patientsRecord (
     diagnosticTest ENUM('Radiology', 'Laboratory', 'Cardiology', 'Neurology', 'Not Applicable') NOT NULL
 );
 
+CREATE TABLE diagnostic (
+    diagnosticID INT AUTO_INCREMENT PRIMARY KEY,
+    appointmentID INT NULL,
+    patientID INT NOT NULL,
+    diagnosticResult TEXT NOT NULL, 
+    FOREIGN KEY (patientID) REFERENCES patientsRecord(patientID) ON DELETE CASCADE,
+    FOREIGN KEY (appointmentID) REFERENCES appointment(appointmentID) ON DELETE CASCADE
+);
+
 CREATE TABLE appointment (
     appointmentID INT PRIMARY KEY AUTO_INCREMENT,
     patientID INT NOT NULL,
@@ -46,4 +55,8 @@ CREATE TABLE assessment (
     assessmentDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (appointmentID) REFERENCES appointment(appointmentID) ON DELETE CASCADE
 );
+
+
+ALTER TABLE patientsRecord ADD COLUMN assessmentID INT NULL;
+ALTER TABLE patientsRecord ADD FOREIGN KEY (assessmentID) REFERENCES assessment(assessmentID) ON DELETE SET NULL;
 
