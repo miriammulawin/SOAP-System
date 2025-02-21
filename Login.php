@@ -58,7 +58,7 @@
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
-
+            <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
             <style>
                     * {
@@ -77,9 +77,11 @@
                         justify-content: center;
                         align-items: center;
                         height: 100vh;
-                        background-image: url('../SOAP/Images/Login-BG.jpg');
+                        background-image: url('../SOAP-System/Images/Login-BG.jpg');
                         background-repeat: no-repeat;
                         background-size: cover;
+                        background-position: center;
+                        padding: 20px;
                     }
 
                     .loginForm {
@@ -90,7 +92,8 @@
                         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
                         width: 100%;
                         max-width: 400px;
-                        height: 500px;
+                        height: auto;
+                        min-height: 500px;
                         text-align: center;
                     }
                     
@@ -99,9 +102,9 @@
                         font-size: 20px;
                     }
 
-                    .intro h1 {s
+                    .intro h1 {
                         font-size: 30px;
-                        font-weight: 'bold';
+                        font-weight: bold;
                         letter-spacing: 7px;
                         color: #001B48;
                     }
@@ -125,7 +128,7 @@
                     }
 
                     .input-box input {
-                        width: 310px;
+                        width: 100%;
                         padding: 10px 15px 10px 45px;
                         font-size: 16px;
                         border: 2px solid #001B48;
@@ -138,24 +141,30 @@
                         border-color: #0078d4;
                     }
 
-                    .input-box i {
+                    .input-box i.input-icon {
                         position: absolute;
                         left: 15px;
-                        top: 50%;
-                        transform: translateY(-50%);
+                        top: 40px;
                         font-size: 18px;
                         color: #999;
                     }
 
+                    .password-toggle {
+                        position: absolute;
+                        right: 15px;
+                        top: 40px;
+                        font-size: 18px;
+                        color: #999;
+                        cursor: pointer;
+                    }
+
                     .forgot {
                         display: flex;
-                        align-items: center;
-                        float: right;
+                        justify-content: flex-end;
                         font-size: 13px;
-                        font-weight: 'bold';
+                        font-weight: bold;
                         margin-bottom: 15px;
                         margin-top: -15px;
-                        margin-right: 10px;
                     }
 
                     .forgot a {
@@ -183,6 +192,32 @@
                     .loginForm button:hover {
                         background: #0056a3;
                     }
+
+                    /* Responsive styles */
+                    @media screen and (max-width: 480px) {
+                        .loginForm {
+                            padding: 20px;
+                            border-radius: 20px;
+                        }
+
+                        .intro h1 {
+                            font-size: 24px;
+                            letter-spacing: 4px;
+                        }
+
+                        .intro h2 {
+                            font-size: 18px;
+                        }
+
+                        .input-box label {
+                            font-size: 14px;
+                        }
+
+                        .input-box input {
+                            padding: 8px 10px 8px 40px;
+                            font-size: 14px;
+                        }
+                    }
             </style>
         </head>
 
@@ -197,15 +232,16 @@
                                     </div>
 
                                     <div class="input-box">
-                                        <label for="text">Email</label>
+                                        <label for="login-username">Email</label>
                                         <input id="login-username" type="text" name="email" required>
-                                        <i class='bx bxs-user'></i>
+                                        <i class='bx bxs-user input-icon'></i>
                                     </div>
 
                                     <div class="input-box">
-                                        <label for="password">Password</label>
+                                        <label for="login-password">Password</label>
                                         <input id="login-password" type="password" name="password" required>
-                                        <i class='bx bxs-lock-alt'></i>
+                                        <i class='bx bxs-lock-alt input-icon'></i>
+                                        <i class='bx bx-hide password-toggle' id="toggle-password"></i>
                                     </div>
 
                                     <div class="forgot">
@@ -216,5 +252,24 @@
                                 </form>
                         </section>
                 </main>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const togglePassword = document.getElementById('toggle-password');
+                        const passwordInput = document.getElementById('login-password');
+
+                        togglePassword.addEventListener('click', function() {
+                            if (passwordInput.type === 'password') {
+                                passwordInput.type = 'text';
+                                this.classList.remove('bx-hide');
+                                this.classList.add('bx-show');
+                            } else {
+                                passwordInput.type = 'password';
+                                this.classList.remove('bx-show');
+                                this.classList.add('bx-hide');
+                            }
+                        });
+                    });
+                </script>
         </body>
 </html>

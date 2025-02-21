@@ -127,718 +127,814 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 
         <style>
                 * {
-                    padding: 0%;
-                    margin: 0%;
-                    font-family: "M PLUS Rounded 1c";
+                    padding: 0;
+                    margin: 0;
+                    font-family: "M PLUS Rounded 1c", sans-serif;
+                    box-sizing: border-box;
+                }
+
+                body {
+                    min-height: 100vh;
+                    display: flex;
+                    flex-direction: column;
                 }
 
                 header {
-                    max-width: 100%;
-                    height: 52px;
-                    padding: 10px;
-                    background-color: #018ABE; 
+                    width: 100%;
+                    padding: 10px 20px;
+                    background-color: #018ABE;
+                    display: flex;
+                    align-items: center;
                 }
 
                 .title h1 {
-                    margin-top: 5px;
-                    font-size: 32px;
+                    font-size: clamp(24px, 5vw, 32px);
                     color: white;
-                    letter-spacing: 7px;
+                    letter-spacing: 5px;
                 }
 
                 main {
-                    max-width: 100%;
-                    height: 809px;
+                    flex: 1;
                     background-color: #97CADB;
+                    display: flex;
+                    flex-direction: row;
+                    min-height: calc(100vh - 72px);
                 }
 
                 aside {
-                    float: left;
-                    position: relative;
                     background-color: #FFFFFF;
-                    width: 16.8%;
-                    height: 770px;
-                    margin-top: 20px;
-                    margin-left: 30px;
+                    width: 280px;
+                    padding: 20px 10px;
+                    transition: transform 0.3s ease;
+                    margin: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
                 }
 
-                .user {
-                    background-color: #C2CDD9;
-                    width: 246px;
-                    height: 79px;
-                    margin-top: 10px;
-                    margin-left: 18px   
-                }
-
-                #edit {
-                    width: 24px;
-                    height: 24px;
-                    position: absolute;
-                    margin-left: 210px;
-                    margin-top: 5px;
-                    margin-bottom: 10px
+                .user { 
+                    height: 12%;
+                    width: 93%;
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    border: 2px solid #E6EAEF;
+                    margin-left: 10px;
+                    margin-bottom: 20px;
                 }
 
                 .user img {
                     width: 48px;
-                    height: 48px ;
-                    margin-top: 20px;
-                    margin-left: 10px
+                    height: 48px;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                    border-radius: 50%;
                 }
 
                 .user span {
-                    position: absolute;
-                    margin-top: 35px;
-                    margin-left: 10px;
                     font-size: 18px;
-                    font-family: 'Rounded Mplus 1c';
                 }
 
                 .content {
-                    background-color: #C2CDD9;
-                    width: 246px;
-                    height: 84%;
-                    margin-top: 18px;
-                    margin-left: 18px;
-                }
-                
-                .content ul {
-                    margin-left: 25px;  
+                    padding: 10px;
+                    height: calc(100% - 100px);
+                    border-radius: 8px;
                 }
 
-                .content img {
-                    width: 32px;
-                    height: 32px;
-                    margin-left: 15px;
-                    margin-top: 18px;
-                    position: relative;
+                .content ul {
+                    list-style: none;
+                    box-sizing: border-box;
+                    padding: 0;
+                    margin: 0;
                 }
 
                 .content li {
-                    list-style: none;
-                    margin-top: -32px;
-                    margin-left: 35px;
-                    margin-bottom: 15px
+                    display: flex;
+                    align-items: center;
                 }
 
-                .content a {
+                .content ul a {
+                    width: 100%;
+                    height: 50px; 
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start; 
+                    border: 2px solid #E6EAEF;
+                    padding: 10px 20px;
                     text-decoration: none;
-                    color: #022E5F;
-                    margin-left: 25px;
-                    font-size: 18px;
+                    color: rgb(0, 31, 62);
+                    font-size: 15px;
                     font-weight: bold;
+                    border-radius: 5px;
+                    transition: background-color 0.3s ease;
+                    box-sizing: border-box;
+                    margin-bottom: 10px;
                 }
 
                 .content a:hover {
-                    color: white;
+                    background-color: #1D70A0;
+                    color:white;
+                }
+
+                .content i {
+                    margin-right: 10px;
                 }
 
                 section {
-                    width: 80%;
-                    height: 95%;
-                    float: left;
+                    flex: 1;
                     background-color: #FFFFFF;
-                    margin-top: 20px;
-                    margin-left: 15px;
+                    margin: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    overflow-y: auto;
                 }
 
                 .setting-container {
-                    width: 100%;
                     height: 100%;
-                    display: none;
+                    display: flex;
+                    flex-direction: column;
                 }
-                
+
                 .header-setting {
                     background-color: #C2CDD9;
-                    width: 98%;
-                    height: 79px;
-                    margin-left: 13px;
-                    margin-top: 15px;
+                    padding: 15px 20px;
+                    margin: 15px;
+                    border-radius: 8px;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+                    flex-wrap: wrap;
+                    gap: 15px;
                 }
 
                 .header-setting img {
-                    width: 40px;
-                    height: 40px;
-                    margin-left: 20px
+                    width: 36px;
+                    height: 36px;
+                }
+
+                .header-title {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
                 }
 
                 .header-setting p {
-                    position: absolute;
-                    margin-left: 80px;
-                    font-size: 32px;
-                    font-weight: 40px;
+                    font-size: clamp(20px, 4vw, 32px);
+                    font-weight: bold;
                 }
 
                 .nav-setting {
                     display: flex;
                     align-items: center;
-                    justify-content: space-between;
-                    margin-right: 30px;
+                    gap: 15px;
+                    flex-wrap: wrap;
                 }
 
-                .notif img {
-                    width: 24px;
-                    height: 24px;
-                    margin-right: 10px;
-                    margin-top: -5px;
+                .search-setting {
+                    position: relative;
                 }
 
                 #search {
-                    width: 318px;
+                    width: clamp(180px, 30vw, 318px);
                     height: 40px;
                     text-align: center;
-                    font-size: 20px;
+                    font-size: 16px;
                     border-radius: 10px;
-                    margin-bottom: 10px;
-                    margin-right: 35px;
                     border: 1px solid #022E5F;
+                    padding: 0 40px 0 15px;
+                    margin-right: 15px;
                 }
 
-                .nav-setting button{
-                    position: absolute;
-                    margin-left: -15px;
-                    text-align: center;
-                    background-color: transparent;
-                    border: none;
+                .nav-setting a i {
+                    font-size: 20px;
+                    color: #02457A;
                 }
-                
-                .nav-setting button img {
-                    width: 24px;
-                    object-fit: contain;
-                    margin-left: -1px;
+
+                .notif i {
+                    font-size: 20px;
+                    margin-left: 10px;
+                    color: #02457A;
                 }
 
                 .setting {
-                    display: none;
-                    background-color:#C2CDD9;
-                    width: 98%;
-                    height: 84%;
-                    margin-left: 13px;
-                    margin-top: 18px;
-                }
-
-                .setting-content {
-                    display: none;
-                    width: 40%;
-                    height: 100%;
-                    float: left;
-                }
-                
-                .setting-content img{
-                    width: 37px;
-                    height: 37px;
+                    background-color: #C2CDD9;
+                    margin: 15px;
+                    border-radius: 8px;
+                    flex: 1;
                     display: flex;
-                    margin-top: 20px;
-                    margin-left: 25px;
+                    flex-direction: column;
+                    overflow: hidden;
                 }
 
-                .account {
-                    width: 100%;
-                    height: 127px;
-                    border: 1px solid black;
-                }
-
-                .notification {
-                   width: 100%;
-                    height: 127px;
-                    border: 1px solid black;
-                }
-
-                .security {
-                    width: 100%;
-                    height: 127px;
-                    border: 1px solid black;
-                }
-
-                .appearance {
-                    width: 100%;
-                    height: 127px;
-                    border: 1px solid black;
+                @media (min-width: 1024px) {
+                    .setting {
+                        flex-direction: row;
+                    }
                 }
 
                 .setting-content {
-                    display: none;
+                    padding: 15px;
+                    width: 100%;
                 }
 
-                .resources {
-                    width: 100%;
-                    height: 128px;
-                    border: 1px solid black;
+                @media (min-width: 1024px) {
+                    .setting-content {
+                        width: 40%;
+                        border-right: 1px solid #97CADB;
+                    }
+                }
+
+                .setting-content > ul > div {
+                    background-color: #FFFFFF;
+                    margin-bottom: 15px;
+                    padding: 15px;
+                    border-radius: 8px;
+                    transition: transform 0.2s;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .setting-content > ul > div:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                }
+
+                .setting-content-header {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 10px;
+                }
+
+                .setting-content img {
+                    width: 32px;
+                    height: 32px;
+                    margin-right: 15px;
                 }
 
                 .setting-content a {
-                    position: absolute;
-                    margin-top: -35px;
-                    margin-left: 80px;
-                    font-size: 20px;
                     text-decoration: none;
-                    color: black;
+                    color: #022E5F;
+                    font-size: 18px;
                     font-weight: bold;
-                }
-
-                .setting-content p {
-                    width: calc(82% - 50px);
-                    text-align: justify;
-                    margin-left: 80px;
-                    font-size: 14px;
+                    transition: color 0.2s;
                 }
 
                 .setting-content a:hover {
-                    color: white;
+                    color: #018ABE;
+                }
+
+                .setting-content p {
+                    font-size: 14px;
+                    color: #555;
+                    line-height: 1.5;
                 }
 
                 .setting-pick-content {
-                    width: 60%;
-                    height: 100%;
-                    float: left;
+                    display: none;
+                    flex: 1;
+                    padding: 15px;
+                    background-color: #C2CDD9;
+                    border-radius: 0 8px 8px 0;
                 }
 
                 .account-content {
-                    display: none;
                     width: 100%;
-                    height: 100%;
-                    margin-left:20px;
+                    max-width: 800px;
+                    margin: 0 auto;
                 }
 
                 .account-content h1 {
-                    font-size: 32px;
-                    padding: 10px;
-                    margin: 25px 20px 10px 25px; 
+                    font-size: 28px;
+                    margin-bottom: 25px;
+                    color: #022E5F;
                 }
 
-                .profile {
-                    width: 85%;
-                    height: auto; 
-                    margin-bottom: 20px; 
+                .profile, .info {
+                    background-color: #f5f7fa;
+                    padding: 20px;
+                    border-radius: 8px;
+                    margin-bottom: 30px;
                 }
 
-                .profile h3 {
-                    margin-left: 35px;
-                    margin-top: -20px;
+                .profile h3, .info h3 {
                     font-size: 20px;
-                    font-weight: bold; 
+                    color: #022E5F;
+                    margin-bottom: 10px;
                 }
 
-                .profile p {
-                    margin-left: 35px;
-                    margin-bottom: 10px; 
-                    font-size: 15px;
+                .profile p, .info p {
+                    margin-bottom: 20px;
+                    color: #555;
+                    font-size: 14px;
                 }
 
-                .profile label {
-                    margin-bottom: -10px;
-                    font-size: 15px;
+                .name-fields, .contact-fields {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                    margin-bottom: 20px;
+                }
+
+                @media (min-width: 640px) {
+                    .name-fields, .contact-fields {
+                        flex-direction: row;
+                    }
+                }
+
+                .first-name, .last-name, .email, .number {
+                    flex: 1;
+                }
+
+                label {
+                    display: block;
+                    margin-bottom: 8px;
                     font-weight: bold;
-                    display: block; 
+                    color: #333;
                 }
 
-                .name-fields {
-                    display: flex; 
-                    margin-left: 35px;
-                    margin-bottom: 15px; 
-                    gap: 25px;
-                }
-
-                .first-name,
-                .last-name {
-                    flex: 1; 
-                }
-
-                .first-name input,
-                .last-name input {
-                    width: 100%; 
+                input[type="text"],
+                input[type="email"] {
+                    width: 100%;
                     height: 43px;
-                    border-radius: 10px;
-                    border: 1px solid #ccc; 
-                    padding: 10px; 
+                    border-radius: 8px;
+                    border: 1px solid #ccc;
+                    padding: 10px;
                     font-size: 14px;
-                    box-sizing: border-box;
-                    margin-top: -15px;
+                    transition: border-color 0.2s;
                 }
 
-                .about {
-                    margin-left: 35px;
-                    margin-bottom: 20px; 
-                }
-
-                .about input {
-                    width: 599px; 
-                    height: 53px;
-                    border-radius: 10px;
-                    border: 1px solid #ccc; 
-                    padding: 10px; 
-                    font-size: 14px;
-                    box-sizing: border-box; 
-                    margin-top: -20px;
+                input[type="text"]:focus,
+                input[type="email"]:focus {
+                    border-color: #018ABE;
+                    outline: none;
                 }
 
                 .line img {
-                    display: block;
-                    margin: 20px 0;
-                    margin-left: 35px;
+                    width: 100%;
+                    height: 1px;
+                    background-color: #ccc;
+                    margin: 30px 0;
                 }
 
-                .info {
-                    width: 85%;
-                    height: auto; 
-                    margin-top: 20px; 
+                .button-group {
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 15px;
+                    margin-top: 30px;
                 }
 
-                .info h3 {
-                    margin-left: 35px;
-                    font-size: 20px;
-                    font-weight: bold; 
-                }
-
-                .info p {
-                    margin-left: 35px;
-                    margin-bottom: 20px; 
-                    font-size: 15px;
-                }
-
-                .info label {
-                    margin-bottom: -10px;
-                    font-size: 15px;
-                    font-weight: bold;
-                    display: block; 
-                }
-
-                .contact-fields {
-                    display: flex; 
-                    margin-left: 35px;
-                    margin-bottom: 20px; 
-                    gap: 25px; 
-                }
-
-                .email,
-                .number {
-                    flex: 1; 
-                }
-
-                .email input,
-                .number input {
-                    width: 100%; 
-                    height: 43px;
-                    border-radius: 10px;
-                    border: 1px solid #ccc; 
-                    padding: 10px; 
-                    font-size: 14px;
-                    box-sizing: border-box; 
-                    margin-top: -20px
-                }
-
-                #save-btn,
-                #cancel-btn {
-                    padding: 10px 30px;
-                    border-radius: 20px;
-                    font-size: 18px;
+                #save-btn, #cancel-btn {
+                    padding: 10px 25px;
+                    border-radius: 25px;
+                    font-size: 16px;
                     font-weight: bold;
                     color: white;
                     border: none;
                     cursor: pointer;
-                    margin-top: 20px; 
+                    transition: opacity 0.2s;
                 }
 
                 #save-btn {
                     background-color: #022E5F;
-                    margin-left: 435px;
                 }
 
                 #cancel-btn {
                     background-color: #97CADB;
-                    margin-left: 10px; 
+                }
+
+                #save-btn:hover, #cancel-btn:hover {
+                    opacity: 0.9;
+                }
+
+                .menu-toggle {
+                    display: none;
+                    background: none;
+                    border: none;
+                    font-size: 24px;
+                    color: white;
+                    cursor: pointer;
+                }
+
+                @media (max-width: 768px) {
+                    main {
+                        flex-direction: column;
+                    }
+                    
+                    aside {
+                        width: calc(100% - 40px);
+                        transform: translateX(-120%);
+                        position: absolute;
+                        z-index: 100;
+                        height: calc(100vh - 92px);
+                    }
+                    
+                    aside.active {
+                        transform: translateX(0);
+                    }
+                    
+                    .menu-toggle {
+                        display: block;
+                        margin-right: 15px;
+                    }
+                    
+                    section {
+                        width: calc(100% - 40px);
+                    }
+                    
+                    .setting-pick-content {
+                        padding: 10px;
+                    }
+                    
+                    .header-setting {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+                    
+                    .nav-setting {
+                        width: 100%;
+                        justify-content: space-between;
+                    }
+                    
+                    #search {
+                        width: 100%;
+                    }
+                    
+                    .button-group {
+                        flex-direction: column;
+                        width: 100%;
+                    }
+                    
+                    #save-btn, #cancel-btn {
+                        width: 100%;
+                        text-align: center;
+                    }
+                }
+
+                /* Utility classes */
+                .d-flex {
+                    display: flex;
+                }
+
+                .align-center {
+                    align-items: center;
+                }
+
+                .hidden {
+                    display: none;
                 }
         </style>
     </head>
     
     <body>
             <header>
+                    <button id="menuToggle" class="menu-toggle">☰</button>
+                    
                     <div class="title">
-                            <h1>MEDICARE</h1>
+                        <h1>MEDICARE</h1>
                     </div>
             </header>
-        
+
             <main>
-                    <aside>
-                            <div class="user">
-                                    <img id="edit" src="../SOAP-System/Images/edit.png" alt="">
-                                    <img src="../SOAP-System/Images/user-icon2.png" alt="">
-                                    <span id="authorizedName">
-                                        <?php echo htmlspecialchars($fullName); ?>
-                                    </span>
+                <aside id="sidebar">
+                    <div class="user">
+                        <img src="../SOAP-System/Images/user-icon2.png" alt="User Icon">
+                        <span id="authorizedName"><?php echo htmlspecialchars($fullName); ?></span>
+                    </div>
+
+                    <div class="content">
+                        <ul>
+                            <li>
+                                <a href="Dashboard.php"><i class="material-icons-outlined">dashboard</i> Dashboard</a>
+                            </li>
+
+                            <li>
+                                <a href="Record.php"><i class="material-icons-outlined">description</i> Record</a>
+                            </li>
+
+                            <li>
+                                <a href="Assessment.php"><i class="material-icons-outlined">assessment</i> Assessment</a>
+                            </li>
+
+                            <li>
+                                <a href="Appointment.php"><i class="material-icons-outlined">calendar_today</i> Appointment</a>
+                            </li>
+
+                            <li>
+                                <a href="Settings.php"><i class="material-icons-outlined">settings</i> Settings</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" onclick="confirmLogout()"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <section>
+                    <div class="setting-container">
+                        <div class="header-setting">
+                            <div class="header-title">
+                                <img src="../SOAP-System/Images/fill-setting.png" alt="Setting Logo">
+                                <p>Settings</p>
                             </div>
 
-                            <div class="content">
-                                    <ul>
-                                        <img src="../SOAP-System/Images/dashboard.png" alt="Dashboard Logo">
-                                        <li><a href="">Dashboard</a></li>
-
-                                        <img src="../SOAP-System/Images/records.png" alt="Records Logo">
-                                        <li><a href="">Records</a></li>
-
-                                        <img src="../SOAP-System/Images/appointment.png" alt="Appointment Logo">
-                                        <li><a href="">Appointments</a></li>
-
-                                        <img src="../SOAP-System/Images/assessment.png" alt="Assessment Logo">
-                                        <li><a href="">Assessment</a></li>
-
-                                        <img src="../SOAP-System/Images/setting.png" alt="Setting Logo">
-                                        <li><a href="javascript:void(0);" onclick="showMainContent('setting')">Setting</a></li>
-
-                                        <img src="../SOAP-System/Images/logout.png" alt="Logout Logo">
-                                        <li><a href="javascript:void(0);" onclick="confirmLogout()">Logout</a></li>
-                                    </ul>
-                            </div>
-                    </aside>
-
-                    <section>
-                                <div class="dashboard">
-
+                            <div class="nav-setting">   
+                                <div class="search-setting">
+                                    <input id="search" type="search" name="Search" placeholder="Search">
+                                    <a href=""><i class="fas fa-search"></i></a>
                                 </div>
                                 
-                                <div class="setting-container">
-                                            <div class="header-setting">
-                                                <img src="../SOAP-System/Images/fill-setting.png" alt="Setting Logo">
-                                                <p>Settings</p>
+                                <div class="notif">
+                                    <a href=""><i class="fas fa-bell"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="setting">
+                            <div class="setting-content">
+                                <ul>
+                                    <div class="account">
+                                        <div class="setting-content-header">
+                                            <img src="../SOAP-System/Images/profile.png" alt="Profile">
+                                            <a href="javascript:void(0);" onclick="showContent('account')">Account</a>
+                                        </div>
+                                        <p>
+                                            Update your personal info, security preferences, and communication settings for a personalized and 
+                                            secure experience.
+                                        </p>
+                                    </div>
 
-                                                <div class="nav-setting">
-                                                        <div class="search-setting">
-                                                                <input id="search" type="search" name="Search" placeholder="Search">
-                                                                <button><img src="../SOAP-System/Images/search.png" alt="Search"></button>
-                                                        </div>
-                                                        
-                                                        <div class="notif">
-                                                            <a href=""><img src="../SOAP-System/Images/notification.png" alt="Notification"></a>
-                                                        </div>
+                                    <div class="notification">
+                                        <div class="setting-content-header">
+                                            <img src="../SOAP-System/Images/notification-black.png" alt="Notification">
+                                            <a href="">Notifications</a>
+                                        </div>
+                                        <p>
+                                            Customize how and when you receive alerts, including appointment reminders, updates, 
+                                            and clinic notifications.
+                                        </p>
+                                    </div>
+
+                                    <div class="security">
+                                        <div class="setting-content-header">
+                                            <img src="../SOAP-System/Images/lock.png" alt="Security">
+                                            <a href="">Security</a>
+                                        </div>
+                                        <p>
+                                            Enhance your account security by updating your password, enabling two-factor authentication, and reviewing 
+                                            login activity.
+                                        </p>
+                                    </div>
+
+                                    <div class="appearance">
+                                        <div class="setting-content-header">
+                                            <img src="../SOAP-System/Images/appearance.png" alt="Appearance">
+                                            <a href="">Appearance</a>
+                                        </div>
+                                        <p>
+                                            Customize colors, fonts, logos, and layout to reflect the brand and ensure a professional, user-friendly design.
+                                        </p>
+                                    </div>
+
+                                    <div class="resources">
+                                        <div class="setting-content-header">
+                                            <img src="../SOAP-System/Images/setting-black.png" alt="Resources">
+                                            <a href="">Additional Resources</a>
+                                        </div>
+                                        <p>
+                                            Extra tools, links, and materials to support and enhance the user experience on the clinic website, providing helpful 
+                                            information for patients and visitors.
+                                        </p>
+                                    </div>
+                                </ul>
+                            </div>
+
+                            <div class="setting-pick-content">
+                                <div class="account-content" id="account-content">
+                                    <form action="" method="POST">
+                                        <h1>Account</h1>
+
+                                        <div class="profile">
+                                            <h3>Profile</h3>
+                                            <p>This information will be displayed publicly so be careful what you share.</p>
+
+                                            <div class="name-fields">
+                                                <div class="first-name">
+                                                    <label for="first-name">First Name:</label>
+                                                    <input type="text" id="first-name" placeholder="First Name" name="first_name" value="<?php echo htmlspecialchars($userData['FirstName'] ?? ''); ?>">
+                                                </div>
+
+                                                <div class="last-name">
+                                                    <label for="last-name">Last Name:</label>
+                                                    <input type="text" id="last-name" placeholder="Last Name" name="last_name" value="<?php echo htmlspecialchars($userData['LastName'] ?? ''); ?>">
+                                                </div>
+                                            </div>  
+
+                                            <div class="about">
+                                                <label for="about">About:</label>
+                                                <input type="text" name="about" id="about" value="<?php echo htmlspecialchars($userData['About'] ?? ''); ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="line">
+                                            <img src="../SOAP-System/Images/line.png" alt="Line">
+                                        </div>
+
+                                        <div class="info">
+                                            <h3>Personal Information</h3>
+                                            <p>This information will be displayed publicly so be careful what you share.</p>
+
+                                            <div class="contact-fields">
+                                                <div class="email">
+                                                    <label for="email">Email Address:</label>
+                                                    <input type="email" id="email" placeholder="Email Address" name="email" value="<?php echo htmlspecialchars($userData['Email'] ?? ''); ?>">
+                                                </div>
+                                                
+                                                <div class="number">
+                                                    <label for="phone-number">Phone Number:</label>
+                                                    <input type="text" id="phone-number" name="phone_number" placeholder="Phone Number" value="<?php echo htmlspecialchars($userData['Number'] ?? ''); ?>">
                                                 </div>
                                             </div>
-                                        
-                                            <div class="setting">
-                                                    <div class="setting-content">
-                                                        <ul>
-                                                                <div class="account">
-                                                                    <img src="../SOAP-System/Images/profile.png" alt="Profile">
-                                                                        <a href="javascript:void(0);" onclick="showContent('account')">Account</a>
-                                                                        <p>
-                                                                            Update your personal info, security preferences, and communication settings for a personalized and 
-                                                                            secure experience.
-                                                                        </p>
-                                                                </div>
-
-                                                                <div class="notification">
-                                                                    <img src="../SOAP-System/Images/notification-black.png" alt="Notification">
-                                                                        <a href="">Notifications</a>
-                                                                        <p>
-                                                                            Customize how and when you receive alerts, including appointment reminders, updates, 
-                                                                            and clinic notifications.
-                                                                        </p>
-                                                                </div>
-
-                                                                <div class="security">
-                                                                    <img src="../SOAP-System/Images/lock.png" alt="Security">
-                                                                        <a href="">Security</a>
-                                                                        <p>
-                                                                            Enhance your account security by updating your password, enabling two-factor authentication, and reviewing 
-                                                                            login activity.
-                                                                        </p>
-                                                                </div>
-
-                                                                <div class="appearance">
-                                                                    <img src="../SOAP-System/Images/appearance.png" alt="Appearance">
-                                                                        <a href="">Appearance</a>
-                                                                        <p>
-                                                                            Customize a colors, fonts, logos, and layout to reflect the brand and ensure a professional, user-friendly design.
-                                                                        </p>
-                                                                </div>
-
-                                                                <div class="resources">
-                                                                    <img src="../SOAP-System/Images/setting-black.png" alt="">
-                                                                        <a href="">Additional Resources</a>
-                                                                        <p>
-                                                                            Extra tools, links, and materials to support and enhance the user experience on the clinic website, providing helpful 
-                                                                            information for patients and visitors.
-                                                                        </p>
-                                                                </div>
-                                                        </ul>
-
-                                                </div>
-
-                                                <div class="setting-pick-content">
-                                                        <div class="account-content" id="account-content">
-                                                                <form action="" method="POST">
-                                                                        <h1>Account</h1>
-
-                                                                        <div class="profile">
-                                                                            <h3>Profile</h3>
-                                                                            <p>This information will be displayed publicly so be careful what you share.</p>
-
-                                                                            <div class="name-fields">
-                                                                                <div class="first-name">
-                                                                                    <label for="first-name">First Name:</label><br>
-                                                                                    <input type="text" id="first-name" placeholder="First Name" name="first_name" value="<?php echo htmlspecialchars($userData['FirstName'] ?? ''); ?>">
-                                                                                </div>
-
-                                                                                <div class="last-name">
-                                                                                    <label for="last-name">Last Name:</label><br>
-                                                                                    <input type="text" id="last-name" placeholder="Last Name" name="last_name" value="<?php echo htmlspecialchars($userData['LastName'] ?? ''); ?>">
-                                                                                </div>
-                                                                            </div>  
-
-                                                                            <div class="about">
-                                                                                <label for="about">About:</label><br>
-                                                                                <input type="text" name="about" id="about" value="<?php echo htmlspecialchars($userData['About'] ?? ''); ?>">
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="line">
-                                                                                <img src="../SOAP-System/Images/line.png" alt="Line">
-                                                                        </div>
-
-                                                                        <div class="info">
-                                                                            <h3>Personal Information</h3>
-                                                                            <p>This information will be displayed publicly so be careful what you share.</p>
-
-                                                                            <div class="contact-fields">
-                                                                                <div class="email">
-                                                                                    <label for="email">Email Address:</label><br>
-                                                                                    <input type="email" id="email" placeholder="Email Address" name="email" value="<?php echo htmlspecialchars($userData['Email'] ?? ''); ?>">
-                                                                                </div>
-                                                                                
-                                                                                <div class="number">
-                                                                                    <label for="phone-number">Phone Number:</label><br>
-                                                                                    <input type="text" id="phone-number" name="phone_number" placeholder="Phone Number" value="<?php echo htmlspecialchars($userData['Number'] ?? ''); ?>">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <button id="save-btn" type="submit" name="update_profile">Save</button>
-                                                                        <button id="cancel-btn" type="button">Cancel</button>
-                                                                </form>
-                                                        </div>
-                                                </div>
                                         </div>
+
+                                        <div class="button-group">
+                                            <button id="save-btn" type="submit" name="update_profile">Save</button>
+                                            <button id="cancel-btn" type="button">Cancel</button>
+                                        </div>
+                                    </form>
                                 </div>
-                    </section>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </main>
     </body>
 
-    <script>
-            function confirmLogout() {
-                    if (confirm("Are you sure you want to logout?")) {
-                        window.location.href = "?action=logout&confirm=yes";
-                        alert('Successful Logout!');
-                    }
-                }
-
-            function showMainContent(contentType) {
-                if (contentType === 'setting') {
-                    document.querySelector('.setting-container').style.display = 'block';
-                    document.querySelector('.setting').style.display = 'block';
+        <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const menuToggle = document.getElementById('menuToggle');
+                    const sidebar = document.getElementById('sidebar');
                     
-                    document.querySelector('.setting-content').style.display = 'block';
-                    
-                    var contentSections = document.querySelectorAll('.setting-pick-content > div');
-                    for (var i = 0; i < contentSections.length; i++) {
-                        contentSections[i].style.display = 'none';
+                    if (menuToggle && sidebar) {
+                        menuToggle.addEventListener('click', function() {
+                            sidebar.classList.toggle('active');
+                        });
                     }
                     
-                    document.querySelector('.setting-pick-content').style.display = 'none';
-                }
-            }
-
-            function showContent(contentType) {
-                
-                document.querySelector('.setting-pick-content').style.display = 'block';
-                
-                var contentSections = document.querySelectorAll('.setting-pick-content > div');
-                for (var i = 0; i < contentSections.length; i++) {
-                    contentSections[i].style.display = 'none';
-                }
-                
-                var selectedContent = document.getElementById(contentType + '-content');
-                if (selectedContent) {
-                    selectedContent.style.display = 'block';
-                }
-            }
-
-            document.addEventListener('DOMContentLoaded', function() {
-                if (window.location.search.includes('update=success')) {
-                    showMainContent('setting');
-                    showContent('account');
-                }
-                
-                const saveButton = document.getElementById('save-btn');
-                if (saveButton) {
-                    saveButton.addEventListener('click', function(e) {
-                        const firstName = document.getElementById('first-name').value.trim();
-                        const email = document.getElementById('email').value.trim();
-                        const phoneNumber = document.getElementById('phone-number').value.trim();
-                        let hasErrors = false;
-                        let errorMessages = [];
-                        
-                        if (!firstName) {
-                            errorMessages.push("First name is required");
-                            hasErrors = true;
-                        }
-                        
-                        if (!email) {
-                            errorMessages.push("Email is required");
-                            hasErrors = true;
-                        } 
-                        else if (!isValidEmail(email)) {
-                            errorMessages.push("Invalid email format");
-                            hasErrors = true;
-                        }
-
-                        function isValidEmail(email) {
-                            let atSymbol = email.indexOf("@");
-                            let dotSymbol = email.lastIndexOf(".");
-                            
-                            if (atSymbol < 1 || dotSymbol < atSymbol + 2 || dotSymbol + 2 >= email.length) {
-                                return false; 
-                            }
-                            return true; 
-                        }
-                        
-                        if (!phoneNumber) {
-                            errorMessages.push("Phone number is required");
-                            hasErrors = true;
-                        }
-                        
-                        if (hasErrors) {
-                            e.preventDefault();
-                            alert(errorMessages.join("\n"));
-                            return false;
+                    document.addEventListener('click', function(e) {
+                        if (sidebar && sidebar.classList.contains('active') && 
+                            !sidebar.contains(e.target) && 
+                            e.target !== menuToggle) {
+                            sidebar.classList.remove('active');
                         }
                     });
-                }
-                
-                const cancelButton = document.getElementById('cancel-btn');
-                if (cancelButton) {
-                    cancelButton.addEventListener('click', function(e) {
-                        const formFields = document.querySelectorAll('.account-content input');
-                        let formChanged = false;
-                        
-                        formFields.forEach(field => {
-                            if (field.defaultValue !== field.value) {
-                                formChanged = true;
+                    
+                    function confirmLogout() {
+                        if (confirm("Are you sure you want to logout?")) {
+                            window.location.href = "?action=logout&confirm=yes";
+                            alert('Successful Logout!');
+                        }
+                    }
+                    window.confirmLogout = confirmLogout;
+
+                    function showMainContent(contentType) {
+                        if (contentType === 'setting') {
+                            document.querySelector('.setting-container').style.display = 'flex';
+                            document.querySelector('.setting').style.display = 'flex';
+                            document.querySelector('.setting-content').style.display = 'block';
+                            
+                            var contentSections = document.querySelectorAll('.setting-pick-content > div');
+                            for (var i = 0; i < contentSections.length; i++) {
+                                contentSections[i].style.display = 'none';
                             }
-                        });
+                            
+                            if (window.innerWidth < 1024) {
+                                document.querySelector('.setting-pick-content').style.display = 'none';
+                            } else {
+                                document.querySelector('.setting-pick-content').style.display = 'block';
+                            }
+                            
+                            if (sidebar.classList.contains('active')) {
+                                sidebar.classList.remove('active');
+                            }
+                        }
+                    }
+                    window.showMainContent = showMainContent;
+
+                    function showContent(contentType) {
+                        document.querySelector('.setting-pick-content').style.display = 'block';
                         
-                        if (formChanged) {
-                            if (!confirm("Are you sure you want to discard your changes?")) {
+                        var contentSections = document.querySelectorAll('.setting-pick-content > div');
+                        for (var i = 0; i < contentSections.length; i++) {
+                            contentSections[i].style.display = 'none';
+                        }
+                        
+                        var selectedContent = document.getElementById(contentType + '-content');
+                        if (selectedContent) {
+                            selectedContent.style.display = 'block';
+                        }
+                        
+                        if (window.innerWidth < 1024) {
+                            document.querySelector('.setting-content').style.display = 'none';
+                        }
+                    }
+                    window.showContent = showContent;
+
+                    if (window.location.search.includes('update=success')) {
+                        showMainContent('setting');
+                        showContent('account');
+                    }
+                    
+                    const saveButton = document.getElementById('save-btn');
+                    if (saveButton) {
+                        saveButton.addEventListener('click', function(e) {
+                            const firstName = document.getElementById('first-name').value.trim();
+                            const email = document.getElementById('email').value.trim();
+                            const phoneNumber = document.getElementById('phone-number').value.trim();
+                            let hasErrors = false;
+                            let errorMessages = [];
+                            
+                            if (!firstName) {
+                                errorMessages.push("First name is required");
+                                hasErrors = true;
+                            }
+                            
+                            if (!email) {
+                                errorMessages.push("Email is required");
+                                hasErrors = true;
+                            } 
+                            else if (!isValidEmail(email)) {
+                                errorMessages.push("Invalid email format");
+                                hasErrors = true;
+                            }
+
+                            function isValidEmail(email) {
+                                let atSymbol = email.indexOf("@");
+                                let dotSymbol = email.lastIndexOf(".");
+                                
+                                if (atSymbol < 1 || dotSymbol < atSymbol + 2 || dotSymbol + 2 >= email.length) {
+                                    return false; 
+                                }
+                                return true; 
+                            }
+                            
+                            if (!phoneNumber) {
+                                errorMessages.push("Phone number is required");
+                                hasErrors = true;
+                            }
+                            
+                            if (hasErrors) {
+                                e.preventDefault();
+                                alert(errorMessages.join("\n"));
+                                return false;
+                            }
+
+                            if (!confirm("Are you sure you want to save these changes?")) {
                                 e.preventDefault();
                                 return false;
                             }
+                        });
+                    }
+                    
+                    const cancelButton = document.getElementById('cancel-btn');
+                    if (cancelButton) {
+                        cancelButton.addEventListener('click', function(e) {
+                            const formFields = document.querySelectorAll('.account-content input');
+                            let formChanged = false;
+
+                            formFields.forEach(field => {
+                                if (field.defaultValue !== field.value) {
+                                    formChanged = true;
+                                }
+                            });
+
+                            if (formChanged) {
+                                if (!confirm("Are you sure you want to discard your changes?")) {
+                                    e.preventDefault();
+                                    return false;
+                                }
+                                
+                                formFields.forEach(field => {
+                                    field.value = field.defaultValue;
+                                });
+                            }
+
+                            document.querySelector('.setting-pick-content').style.display = 'none';
+                            if (window.innerWidth < 1024) {
+                                document.querySelector('.setting-content').style.display = 'block';
+                            }
+                        });
+                    }
+                    
+                    window.addEventListener('resize', function() {
+                        if (window.innerWidth >= 1024) {
+                            document.querySelector('.setting-content').style.display = 'block';
+                            sidebar.classList.remove('active');
                         }
                     });
-                }
-            });
-    </script>
+                });
+        </script>
 </html>
