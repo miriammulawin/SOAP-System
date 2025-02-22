@@ -4,7 +4,7 @@ ini_set('display_errors', 1); // Show errors
 
 $servername = "localhost";
 $username = "root";
-$password = "07242004";
+$password = "091203";
 $dbname = "MedicalSystem";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -38,6 +38,7 @@ if (isset($_GET['testType'])) {
         exit;
     }
 
+    // Query to fetch patient records based on testType
     $sql = "SELECT pr.firstName, pr.lastName, pr.age, r.testType, r.result, r.dateConducted
             FROM patientsRecord pr
             INNER JOIN $tableName r ON pr.patientID = r.patientID";
@@ -54,7 +55,19 @@ if (isset($_GET['testType'])) {
         echo json_encode([]); // Return empty array if no records found
     }
 } else {
-    echo json_encode(["error" => "Test type parameter is missing"]);
+    // If 'testType' is not specified, fetch all patient records
+    $sql = "SELECT * FROM patients";  // Assuming the table storing patient data is named 'patients'
+    $result = $conn->query($sql);
+
+    $patients = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $patients[] = $row;  // Add each row (patient) to the array
+        }
+        echo json_encode($patients);  // Send the data as a JSON response
+    } else {
+        echo json_encode([]);  // Return empty array if no records found
+    }
 }
 
 $conn->close();

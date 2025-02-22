@@ -1,7 +1,7 @@
 <?php
 
 function addPatientRecord($postData) {
-    $conn = new mysqli("localhost", "root", "07242004", "MedicalSystem"); 
+    $conn = new mysqli("localhost", "root", "091203", "MedicalSystem"); 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
@@ -28,7 +28,7 @@ function addPatientRecord($postData) {
     $diagnosticTest = isset($postData['diagnosticTest']) ? $postData['diagnosticTest'] : 'Not Applicable';
 
     // Ensure the diagnosticTest value is valid (ENUM values)
-    $validTests = ['Radiology', 'Laboratory', 'Cardiovascular', 'Neurology', 'Not Applicable'];
+    $validTests = ['Radiology', 'Laboratory', 'Cardiovascular', 'Neurological', 'Not Applicable'];
     if (!in_array($diagnosticTest, $validTests)) {
         // If invalid value is provided, set a default valid value (e.g., 'Not Applicable')
         $diagnosticTest = 'Not Applicable';
@@ -53,7 +53,7 @@ function addPatientRecord($postData) {
                 'Radiology' => 'Radiology',
                 'Laboratory' => 'Laboratory',
                 'Cardiovascular' => 'Cardiovascular', // Ensure correct table name
-                'Neurology' => 'Neurological', // Map 'Neurology' to 'Neurological'
+                'Neurological' => 'Neurological', // Map 'Neurology' to 'Neurological'
                 'Not Applicable' => null // Don't insert into any table if 'Not Applicable'
             ][$diagnosticTest];
 
