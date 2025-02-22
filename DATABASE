@@ -27,7 +27,43 @@ CREATE TABLE patientsRecord (
     temperature DECIMAL(4,2), 
     bloodPressure VARCHAR(20), 
     heartRate INT, 
-    diagnosticTest ENUM('Radiology', 'Laboratory', 'Cardiology', 'Neurology', 'Not Applicable') NOT NULL
+    diagnosticTest ENUM('Radiology', 'Laboratory', 'Cardiovascular', 'Neurology', 'Not Applicable') NOT NULL
+);
+
+CREATE TABLE Radiology (
+    radiologyID INT PRIMARY KEY AUTO_INCREMENT,
+    patientID INT NOT NULL,
+    testType VARCHAR(255) NOT NULL,
+    result TEXT NOT NULL,
+    dateConducted DATETIME NOT NULL,
+    FOREIGN KEY (patientID) REFERENCES patientsRecord(patientID) ON DELETE CASCADE
+);
+
+CREATE TABLE Laboratory (
+    labID INT PRIMARY KEY AUTO_INCREMENT,
+    patientID INT NOT NULL,
+    testType VARCHAR(255) NOT NULL,
+    result TEXT NOT NULL,
+    dateConducted DATETIME NOT NULL,
+    FOREIGN KEY (patientID) REFERENCES patientsRecord(patientID) ON DELETE CASCADE
+);
+
+CREATE TABLE Cardiovascular (
+    cardioID INT PRIMARY KEY AUTO_INCREMENT,
+    patientID INT NOT NULL,
+    testType VARCHAR(255) NOT NULL,
+    result TEXT NOT NULL,
+    dateConducted DATETIME NOT NULL,
+    FOREIGN KEY (patientID) REFERENCES patientsRecord(patientID) ON DELETE CASCADE
+);
+
+CREATE TABLE Neurological (
+    neuroID INT PRIMARY KEY AUTO_INCREMENT,
+    patientID INT NOT NULL,
+    testType VARCHAR(255) NOT NULL,
+    result TEXT NOT NULL,
+    dateConducted DATETIME NOT NULL,
+    FOREIGN KEY (patientID) REFERENCES patientsRecord(patientID) ON DELETE CASCADE
 );
 
 CREATE TABLE appointment (
@@ -48,4 +84,3 @@ CREATE TABLE assessment (
     assessmentDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (appointmentID) REFERENCES appointment(appointmentID) ON DELETE CASCADE
 );
-
