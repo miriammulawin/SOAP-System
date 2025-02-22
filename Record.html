@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e3f2fd;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-right: 2px solid #b0bec5;
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+        }
+        .profile-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 0px;
+            border: 2px solid #b0bec5;
+            position: relative;
+        }
+        .profile-info {
+            display: flex;
+            align-items: center;
+        }
+        .profile-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .profile-container .fa-edit {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #007bb5;
+        }
+        .menu-item {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+            border: 1px solid transparent;
+        }
+        .menu-item:hover, .menu-item.active {
+            background: #bbdefb;
+            border: 1px solid #007bb5;
+        }
+        .menu-item i {
+            margin-right: 10px;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #cfd8dc;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 2px solid #b0bec5;
+        }
+        .add-btn {
+            background: #007bb5;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            border: 2px solid #005f87;
+        }
+        .add-btn i {
+            margin-right: 8px;
+        }
+        .search-bar-container {
+            display: flex;
+            align-items: center;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            border: 2px solid #90a4ae;
+            border-radius: 5px;
+            padding: 5px;
+            background: white;
+            margin-left: 10px;  /* Adjust margin for spacing */
+        }
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 5px;
+        }
+        .records-container {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border: 2px solid #007bb5;
+            margin-bottom: 20px;
+        }
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #007bb5;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .record-actions i {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .record-item {
+            background: #d0d9e4;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #90a4ae;
+        }
+        .record-item .action-options {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .record-item .action-options i {
+            font-size: 20px;
+            margin-left: 10px;
+        }
+        .record-item button {
+            margin-left: 10px;
+            background: #007bb5;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .record-item button:hover {
+            background: #005f87;
+        }
+        /* Window Mode Style */
+        .window-mode .record-item {
+            display: flex;
+            flex-direction: column;
+            background: #bbdefb;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 20px;  /* Semi-rounded square */
+            border: 2px solid #007bb5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .window-mode .record-item span {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .window-mode .record-actions {
+            display: flex;
+            justify-content: flex-start;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>MEDICARE</h2>
+        <div class="profile-container">
+            <div class="profile-info">
+                <img src="https://via.placeholder.com/50" alt="Profile">
+                <span>admin101@gmail.com</span>
+            </div>
+            <i class="fa fa-edit edit-profile"></i>
+        </div>
+        <div class="menu-item"><i class="fa fa-th-large"></i> Dashboard</div>
+        <div class="menu-item active"><i class="fa fa-folder"></i> Records</div>
+        <div class="menu-item"><i class="fa fa-calendar-alt"></i> Appointments</div>
+        <div class="menu-item"><i class="fa fa-chart-bar"></i> Assessment</div>
+        <div class="menu-item"><i class="fa fa-cog"></i> Settings</div>
+        <div class="menu-item"><i class="fa fa-sign-out-alt"></i> Logout</div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <button class="add-btn"><i class="fa fa-user-plus"></i> Add Patient</button>
+            <div class="search-bar-container">
+                <i class="fa fa-bell"></i>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search...">
+                    <i class="fa fa-search"></i>
+                </div>
+            </div>
+        </div>
+        <div class="records-container">
+            <div class="record-header">
+                <h3>Records</h3>
+                <div class="record-actions">
+                    <i class="fa fa-plus"></i>
+                    <i class="fa fa-trash"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </div>
+            </div>
+            <div class="record-item">
+                <span>• Record 1</span>
+                <div class="action-options">
+                    <i class="fa fa-ellipsis-v"></i>
+                </div>
+            </div>
+            <div class="record-item">
+                <span>• Record 2</span>
+                <div class="action-options">
+                    <i class="fa fa-ellipsis-v"></i>
+                </div>
+            </div>
+            <div class="record-item">
+                <span>• Record 3</span>
+                <div class="action-options">
+                    <i class="fa fa-ellipsis-v"></i>
+                </div>
+            </div>
+            <div class="record-item">
+                <span>• Record 4</span>
+                <div class="action-options">
+                    <i class="fa fa-ellipsis-v"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
