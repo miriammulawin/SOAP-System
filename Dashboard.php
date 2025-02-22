@@ -234,11 +234,11 @@
         </div>
         <div class="holder">
             <ul>
-                <li><a href="#"><i class="material-icons-outlined">dashboard</i> Dashboard</a></li>
+                <li><a href="Dashboard.php"><i class="material-icons-outlined">dashboard</i> Dashboard</a></li>
                 <li><a href="#"><i class="material-icons-outlined">description</i> Record</a></li>
                 <li><a href="#"><i class="material-icons-outlined">assessment</i> Assessment</a></li>
                 <li><a href="#"><i class="material-icons-outlined">calendar_today</i> Appointment</a></li>
-                <li><a href="#"><i class="material-icons-outlined">settings</i> Settings</a></li>
+                <li><a href="setting.php"><i class="material-icons-outlined">settings</i> Settings</a></li>
                 <li><a href="#"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </div>
