@@ -32,7 +32,7 @@
 
                 echo "<script>
                             alert('Login successful! Welcome, " . $user['FirstName'] . ' ' . $user['LastName'] . "'); 
-                            window.location.href='setting.php';
+                            window.location.href='Dashboard.php';
                       </script>";
             } 
             else {

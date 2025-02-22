@@ -624,7 +624,7 @@
                             </li>
 
                             <li>
-                                <a href="Settings.php"><i class="material-icons-outlined">settings</i> Settings</a>
+                                <a href="setting.php"><i class="material-icons-outlined">settings</i> Settings</a>
                             </li>
                             <li>
                                 <a href="javascript:void(0);" onclick="confirmLogout()"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>

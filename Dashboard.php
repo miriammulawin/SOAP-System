@@ -353,7 +353,7 @@
                     <li><a href="Record.php"><i class="material-icons-outlined">description</i> Record</a></li>
                     <li><a href="Assessment.php"><i class="material-icons-outlined">assessment</i> Assessment</a></li>
                     <li><a href="Appointment.php"><i class="material-icons-outlined">calendar_today</i> Appointment</a></li>
-                    <li><a href="Settings.php"><i class="material-icons-outlined">settings</i> Settings</a></li>
+                    <li><a href="setting.php"><i class="material-icons-outlined">settings</i> Settings</a></li>
                     <li><a href="Login.php"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </aside>
