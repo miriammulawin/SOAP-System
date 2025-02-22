@@ -306,7 +306,7 @@
                     border-radius: 10px;
                     border: 1px solid #022E5F;
                     padding: 0 40px 0 15px;
-                    margin-right: 15px;
+                    margin-right: 10px;
                 }
 
                 .nav-setting a i {
@@ -314,9 +314,12 @@
                     color: #02457A;
                 }
 
+                .nav-setting a i:hover {
+                    color: white;
+                }
+
                 .notif i {
                     font-size: 20px;
-                    margin-left: 10px;
                     color: #02457A;
                 }
 
