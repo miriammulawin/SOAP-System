@@ -3,15 +3,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $patientID = $_POST['patientID'];
     $appointmentDate = $_POST['appointmentDate'];
 
-    // Database connection
+    // Database Connection
     $conn = new mysqli('localhost', 'root', '091203', 'MedicalSystem');
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Prepare and execute the query to insert the appointment
-    $stmt = $conn->prepare("INSERT INTO appointments (patientID, appointmentDate) VALUES (?, ?)");
+    // Insert Appointment
+    $stmt = $conn->prepare("INSERT INTO appointment (patientID,  appointmentDate) VALUES (?, ?)");
     $stmt->bind_param("is", $patientID, $appointmentDate);
 
     if ($stmt->execute()) {

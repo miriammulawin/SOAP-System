@@ -612,7 +612,7 @@
             <?php include 'appointmentRecords.php'; ?>
             </div>
            
-    <!-- Modal Structure -->
+ <!-- Modal Structure -->
 <div id="searchModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
@@ -626,122 +626,123 @@
                     <th>Last Name</th>
                     <th>Age</th>
                     <th>Gender</th>
-                    <th>Select</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Patient records will be inserted here -->
             </tbody>
         </table>
-        <!-- Appointment Date Section (Initially Hidden) -->
+
+        <!-- Selected Patient Display -->
+        <h3>Selected Patient: <span id="selectedPatient">None</span></h3>
+
+        <!-- Appointment Date Section -->
         <div id="appointmentDateSection" style="display:none;">
             <h3>Set Appointment Date</h3>
             <input type="date" id="appointmentDate">
-            <button onclick="addAppointment()">Add Appointment</button>
+            <button id="addAppointmentBtn" onclick="addAppointment()" disabled>Add Appointment</button>
         </div>
     </div>
 </div>
 
+
 <script>
-// Open Modal
+// Open Modal and Fetch Patients
 function openModal() {
     document.getElementById("searchModal").style.display = "block";
-    fetchPatients(); // Fetch patients when modal is opened
-
-    // Show the appointment date section
-    document.getElementById("appointmentDateSection").style.display = "block";
+    fetchPatients();
 }
 
 // Close Modal
 function closeModal() {
     document.getElementById("searchModal").style.display = "none";
-
-    // Hide the appointment date section when closing the modal
-    document.getElementById("appointmentDateSection").style.display = "none";
 }
 
-// Fetch Patients from the database and display them in the table
+// Fetch Patients from the Database
 function fetchPatients() {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "fetchPatients.php", true);
     xhr.onload = function() {
         if (xhr.status == 200) {
-            const patients = JSON.parse(xhr.responseText);
-            window.patients = patients;  // Save patients globally
-            displayPatients(patients);  // Display all patients initially
+            window.patients = JSON.parse(xhr.responseText);  // Store patients globally
+            displayPatients(window.patients);  // Display patients in the table
         }
     };
     xhr.send();
 }
 
-// Function to display patients in the table
+// Display Patients in Table (Clickable Rows)
 function displayPatients(patients) {
-    let tableContent = '';
+    let tableBody = document.querySelector("#patientsTable tbody");
+    tableBody.innerHTML = ''; // Clear previous data
+
     patients.forEach(patient => {
-        tableContent += `
-            <tr>
-                <td>${patient.patientID}</td>
-                <td>${patient.firstName}</td>
-                <td>${patient.lastName}</td>
-                <td>${patient.age}</td>
-                <td>${patient.gender}</td>
-                <td><button class="select-btn" onclick="selectPatient(${patient.patientID}, this)">Select</button></td>
-            </tr>
+        let row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${patient.patientID}</td>
+            <td>${patient.firstName}</td>
+            <td>${patient.lastName}</td>
+            <td>${patient.age}</td>
+            <td>${patient.gender}</td>
         `;
+
+        // Make row clickable
+        row.onclick = function() {
+            selectPatient(patient, row);
+        };
+
+        tableBody.appendChild(row);
     });
-    document.querySelector("#patientsTable tbody").innerHTML = tableContent;
 }
 
-// Function to handle patient selection
-function selectPatient(patientID, button) {
-    console.log("Select button clicked for patientID:", patientID);  // Log the patientID for debugging
+// Function to Handle Patient Selection
+function selectPatient(patient, row) {
+    console.log("Selected Patient:", patient);
 
-    // Find the patient object based on the patientID
-    const patient = window.patients.find(p => p.patientID === patientID);
-    
-    if (patient) {
-        console.log("Selected patient:", patient);  // Log the patient object to confirm selection
+    // Store Selected Patient ID
+    window.selectedPatientID = patient.patientID;
 
-        // Show the appointment date section only after selecting a patient
-        document.getElementById("appointmentDateSection").style.display = "block";
+    // Show Selected Patient's Name
+    document.getElementById("selectedPatient").innerText = `${patient.firstName} ${patient.lastName}`;
 
-        // Store the selected patient ID
-        window.selectedPatientID = patient.patientID;
+    // Highlight Selected Row (Reset All First)
+    document.querySelectorAll("#patientsTable tbody tr").forEach(tr => {
+        tr.style.backgroundColor = ""; // Reset
+        tr.style.color = "";
+    });
+    row.style.backgroundColor = "#4CAF50"; // Green Highlight
+    row.style.color = "white";
 
-        // Show the selected patient's name (you can display this wherever you'd like)
-        document.getElementById("selectedPatient").innerHTML = `${patient.firstName} ${patient.lastName}`;
-
-        // Reset button colors for all select buttons
-        const selectButtons = document.querySelectorAll(".select-btn");
-        selectButtons.forEach(btn => btn.style.backgroundColor = "");  // Reset all buttons
-
-        // Highlight the selected button
-        button.style.backgroundColor = "#4CAF50";  // Green color
-        button.style.color = "white";  // White text color
-
-        // Enable the "Add Appointment" button
-        document.getElementById("addAppointmentBtn").disabled = false;
-    } else {
-        console.log("Patient not found.");
-    }
+    // Enable the "Add Appointment" Button
+    document.getElementById("appointmentDateSection").style.display = "block";
+    document.getElementById("addAppointmentBtn").disabled = false;
 }
 
-// Function to add appointment
+// Function to Add Appointment
 function addAppointment() {
     const appointmentDate = document.getElementById("appointmentDate").value;
-    if (!appointmentDate) {
-        alert("Please select a date for the appointment.");
+
+    // Check if a Patient is Selected
+    if (!window.selectedPatientID) {
+        alert("Please select a patient first!");
         return;
     }
-    // Send the appointment data to the server for insertion
+
+    // Check if an Appointment Date is Selected
+    if (!appointmentDate) {
+        alert("Please select an appointment date!");
+        return;
+    }
+
+    // Send Appointment Data to Server
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "addAppointment.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onload = function() {
-        if (xhr.status == 200) {
+        if (xhr.status === 200) {
             alert("Appointment added successfully!");
-            closeModal(); // Close the modal
-            fetchAppointments(); // Refresh the appointment table
+            closeModal(); // Close Modal After Adding
+            fetchAppointments(); // Refresh Appointment List
         } else {
             alert("Error adding appointment.");
         }
@@ -770,6 +771,7 @@ function displayAppointments(appointments) {
             <div class="appointment-card">
                 <div>Patient: ${appointment.patientName}</div>
                 <div>Date: ${appointment.appointmentDate}</div>
+                
             </div>
         `;
     });
