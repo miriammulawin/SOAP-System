@@ -2,6 +2,9 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $patientID = $_POST['patientID'];
     $appointmentDate = $_POST['appointmentDate'];
+    $diagnosticTest = $_POST['diagnosticTest'];
+    $diagnosticResult = $_POST['diagnosticResult'];
+    $appointmentStatus = $_POST['appointmentStatus'];
 
     // Database Connection
     $conn = new mysqli('localhost', 'root', '091203', 'MedicalSystem');
@@ -11,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Insert Appointment
-    $stmt = $conn->prepare("INSERT INTO appointment (patientID,  appointmentDate) VALUES (?, ?)");
-    $stmt->bind_param("is", $patientID, $appointmentDate);
+    $stmt = $conn->prepare("INSERT INTO appointment (patientID, diagnosticTest, diagnosticResult, appointmentDate, appointmentStatus) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("issss", $patientID, $diagnosticTest, $diagnosticResult, $appointmentDate, $appointmentStatus);
 
     if ($stmt->execute()) {
         echo "Appointment added successfully!";

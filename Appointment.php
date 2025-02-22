@@ -763,20 +763,23 @@ function fetchAppointments() {
     xhr.send();
 }
 
-// Function to display appointments in the table
 function displayAppointments(appointments) {
     let appointmentsContent = '';
     appointments.forEach(appointment => {
         appointmentsContent += `
-            <div class="appointment-card">
-                <div>Patient: ${appointment.patientName}</div>
-                <div>Date: ${appointment.appointmentDate}</div>
-                
-            </div>
+            <tr>
+                <td>${appointment.appointmentID}</td>
+                <td>${appointment.patientID}</td>
+                <td>${appointment.diagnosticTest}</td>
+                <td>${appointment.diagnosticResult}</td>
+                <td>${appointment.appointmentDate}</td>
+                <td>${appointment.appointmentStatus}</td>
+            </tr>
         `;
     });
-    document.getElementById('appointmentList').innerHTML = appointmentsContent;
+    document.querySelector('#appointmentTable tbody').innerHTML = appointmentsContent;
 }
+
 
 // Search functionality
 function searchPatients() {
