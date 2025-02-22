@@ -1,0 +1,49 @@
+CREATE DATABASE MedicalSystem;
+USE MedicalSystem;
+
+CREATE TABLE AuthorizeUser (
+    authorizeUserID INT PRIMARY KEY AUTO_INCREMENT,
+    firstName VARCHAR(255) NOT NULL,
+    lastName VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE patientsRecord (
+    patientID INT PRIMARY KEY AUTO_INCREMENT,
+    firstName VARCHAR(255) NOT NULL,
+    lastName VARCHAR(255) NOT NULL,
+    age INT NOT NULL,
+    address TEXT NOT NULL,
+    birthday DATE NOT NULL,
+    gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    symptoms TEXT NOT NULL,
+    medicalHistory TEXT,
+    weight DECIMAL(5,2) NOT NULL, 
+    height DECIMAL(5,2) NOT NULL,
+    temperature DECIMAL(4,2), 
+    bloodPressure VARCHAR(20), 
+    heartRate INT, 
+    diagnosticTest ENUM('Radiology', 'Laboratory', 'Cardiology', 'Neurology', 'Not Applicable') NOT NULL
+);
+
+CREATE TABLE appointment (
+    appointmentID INT PRIMARY KEY AUTO_INCREMENT,
+    patientID INT NOT NULL,
+    diagnosticTest ENUM('Radiology', 'Laboratory', 'Cardiology', 'Neurology', 'Not Applicable') NOT NULL,
+    diagnosticResult ENUM('Normal', 'Not Normal') NULL,
+    appointmentDate DATETIME NOT NULL,
+    appointmentStatus ENUM('Finished', 'Cancelled') NULL,
+    FOREIGN KEY (patientID) REFERENCES patientsRecord(patientID) ON DELETE CASCADE
+);
+
+CREATE TABLE assessment (
+    assessmentID INT PRIMARY KEY AUTO_INCREMENT,
+    appointmentID INT NOT NULL UNIQUE,
+    diagnosis TEXT NOT NULL,
+    prescription TEXT NOT NULL,
+    assessmentDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (appointmentID) REFERENCES appointment(appointmentID) ON DELETE CASCADE
+);
+
