@@ -114,7 +114,7 @@
         }
 
         main {
-            margin-top: 48px; 
+            margin-top: 40px; 
             margin-left: 240px; 
             background-color: white;
             width: 160vh;
@@ -122,10 +122,6 @@
             padding: 20px;
         }
 
-        .bg {
-                    width: 161vh;
-                    height: 80vh;
-                }
         .panel {
             border-radius:10px;
             position: relative;
@@ -220,6 +216,12 @@
             margin-left: -1vh;
             margin-top: 5px;
         }
+
+        .bg {
+                    width: 161vh;
+                    height: 80vh;
+                }
+
         .modal {
             display: none;
             position: fixed;
@@ -272,7 +274,7 @@
             text-align: left;
             flex: 1;
         }
-        input, textarea, select {
+        input, textarea {
             width: 100%;
             padding: 12px;
             margin-top: 5px;
@@ -311,11 +313,11 @@
         .btn-submit:hover {
             background: #218838;
         }
-        .test-text {
+        .diagnostic-test {
             font-weight: bold;
             margin-top: 15px;
             text-align: center;
-            font-size: 20px;
+            font-size: 23px;
         }
         .radio-group {
     display: flex;
@@ -379,6 +381,7 @@
 }
 
 
+<style>
     /* Table container styles */
     #testTable {
         width: 100%;
@@ -437,8 +440,6 @@
             padding: 8px;
         }
     }
-
-    
 
     </style>
 </head>
@@ -539,17 +540,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group">
                     <label for="gender">Gender:</label>
                     <select id="gender" name="gender" required>
-    <option value="" disabled selected></option> <!-- No selection by default -->
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-    <option value="Other">Other</option>
-</select>
-
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                <label for="birthday">Birthday:</label>
-                <input type="date" id="birthday" name="birthday" required>
-            </div>
+                    <label for="birthday">Birthday (Year/Month/Day):</label>
+                    <input type="text" id="birthday" name="birthday" placeholder="YYYY/MM/DD" required pattern="\d{4}/\d{2}/\d{2}">
+                </div>
             </div>
             <div class="form-group">
                 <label for="symptoms">Symptoms:</label>
@@ -561,10 +560,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <hr>
- 
 
-            <div class="test-text">Physical Test</div>
-            <br>
             <div class="row">
                 <div class="form-group">
                     <label for="height">Height (cm):</label>
@@ -593,8 +589,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <hr>
 
-            <div class="test-text">Diagnostic Test</div>
-            <br>
+            <div class="diagnostic-test">Diagnostic Test</div>
             <div class="radio-group">
     <!-- Top group: Laboratory, Radiology, Cardiovascular -->
     <div class="top-group">
@@ -615,7 +610,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="radio" name="diagnosticTest" value="Neurology"> Neurology
         </label>
         <label for="diagnosticTest">
-            <input type="radio" name="diagnosticTest" value="Not Applicable"> Not Applicable
+            <input type="radio" name="diagnosticTest" value="Not Applicable" checked> Not Applicable
         </label>
     </div>
 </div>
@@ -716,25 +711,30 @@ function showPopup(message, type) {
 </script>
 
 <script>
-        // Function to fetch and update the patient records dynamically
-        function loadPatientRecords() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "fetch_patients.php", true); // Assuming the PHP file is 'fetch_patients.php'
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById('record-content').innerHTML = xhr.responseText;
-                }
-            };
-            xhr.send();
+    document.querySelector(".panel .right-section input[type='text']").addEventListener("input", function() {
+    let searchTerm = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#testTable table tr");
+
+    rows.forEach(row => {
+        let cells = row.querySelectorAll("td");
+        let matchFound = false;
+
+        cells.forEach(cell => {
+            if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                matchFound = true;
+            }
+        });
+
+        if (matchFound) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
         }
+    });
+});
 
-        // Load the patient records every 5 seconds (adjust as needed)
-        setInterval(loadPatientRecords, 5000);
-
-        // Initially load the records when the page is loaded
-        window.onload = function() {
-            loadPatientRecords();
-        };
     </script>
+
 </body>
 </html>
+

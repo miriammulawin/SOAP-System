@@ -832,11 +832,11 @@ function filterByStatus(status) {
     // Update the URL with the selected status
     const url = new URL(window.location.href);
     if (status) {
-        url.searchParams.set('status', status);  // Add the status filter to the URL
+        url.searchParams.set('status', status); 
     } else {
-        url.searchParams.delete('status');  // Remove the filter if no status
+        url.searchParams.delete('status');  
     }
-    window.location.href = url;  // Reload the page with the updated filter
+    window.location.href = url;  
 }
 
 </script>

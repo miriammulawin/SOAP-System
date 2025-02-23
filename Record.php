@@ -553,6 +553,14 @@
 </head>
 
 <body>
+<?php
+require_once 'addPatientRecord.php';
+
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    addPatientRecord($_POST);
+}
+?>
     <header>
         <h2>MEDICARE</h2>
     </header>
