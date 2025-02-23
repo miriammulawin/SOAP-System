@@ -4,7 +4,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $appointmentDate = $_POST['appointmentDate'];
 
     // Database Connection
-    $conn = new mysqli('localhost', 'root', '091203', 'MedicalSystem');
+    $conn = new mysqli('localhost', 'root', '12345', 'MedicalSystem');
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);

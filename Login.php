@@ -1,3 +1,4 @@
+
 <?php
     session_start();  
 
@@ -30,21 +31,24 @@
                 $_SESSION['user_first_name'] = $user['FirstName'];
                 $_SESSION['user_last_name'] = $user['LastName'];
 
-                echo "<script>
-                            alert('Login successful! Welcome, " . $user['FirstName'] . ' ' . $user['LastName'] . "'); 
-                            window.location.href='setting.php';
-                      </script>";
+                echo 
+                "<script>
+                        alert('Login successful! Welcome, " . $user['FirstName'] . ' ' . $user['LastName'] . "'); 
+                        window.location.href='Dashboard.php';
+                </script>";
             } 
             else {
-                echo "<script>
-                         alert('Incorrect password.');
-                      </script>";
+                echo 
+                "<script>
+                        alert('Incorrect password.');
+                    </script>";
             }
         } 
         else {
-             echo "<script>
+            echo 
+                "<script>
                         alert('User with that email does not exist.');
-                   </script>";
+                </script>";
         }
     }
 ?>
@@ -193,7 +197,6 @@
                         background: #0056a3;
                     }
 
-                    /* Responsive styles */
                     @media screen and (max-width: 480px) {
                         .loginForm {
                             padding: 20px;

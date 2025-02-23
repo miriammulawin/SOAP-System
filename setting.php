@@ -27,14 +27,16 @@
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         $fullName = $user['FirstName'];
+        
         if (!empty($user['LastName'])) {
             $fullName .= " " . $user['LastName'];
         }
-    } else {
+    } 
+    else {
         $fullName = "User";
     }
     
-     if (isset($_GET['action']) && $_GET['action'] == 'logout' && isset($_GET['confirm']) && $_GET['confirm'] == 'yes') {
+    if (isset($_GET['action']) && $_GET['action'] == 'logout' && isset($_GET['confirm']) && $_GET['confirm'] == 'yes') {
         $_SESSION = array();
         
         session_destroy();
@@ -52,7 +54,8 @@
         
         if ($result->num_rows > 0) {
             return $result->fetch_assoc();
-        } else {
+        } 
+        else {
             return false;
         }
     }
@@ -62,7 +65,8 @@
 
     if (!$userData) {
         $fullName = "User";
-    } else {
+    } 
+    else {
         $fullName = $userData['FirstName'];
         if (!empty($userData['LastName'])) {
             $fullName .= " " . $userData['LastName'];
@@ -83,7 +87,8 @@
         
         if (empty($email)) {
             $errors[] = "Email is required";
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        } 
+        elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = "Invalid email format";
         }
         
@@ -110,7 +115,8 @@
                         window.location.href='setting.php';
                     </script>";
                 exit();
-            } else {
+            } 
+            else {
                 $updateError = "Failed to update profile: " . $conn->error;
             }
         }
@@ -306,7 +312,7 @@
                     border-radius: 10px;
                     border: 1px solid #022E5F;
                     padding: 0 40px 0 15px;
-                    margin-right: 15px;
+                    margin-right: 10px;
                 }
 
                 .nav-setting a i {
@@ -314,9 +320,12 @@
                     color: #02457A;
                 }
 
+                .nav-setting a i:hover {
+                    color: white;
+                }
+
                 .notif i {
                     font-size: 20px;
-                    margin-left: 10px;
                     color: #02457A;
                 }
 
@@ -574,7 +583,6 @@
                     }
                 }
 
-                /* Utility classes */
                 .d-flex {
                     display: flex;
                 }
@@ -624,7 +632,7 @@
                             </li>
 
                             <li>
-                                <a href="Settings.php"><i class="material-icons-outlined">settings</i> Settings</a>
+                                <a href="setting.php"><i class="material-icons-outlined">settings</i> Settings</a>
                             </li>
                             <li>
                                 <a href="javascript:void(0);" onclick="confirmLogout()"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
@@ -813,7 +821,8 @@
                             
                             if (window.innerWidth < 1024) {
                                 document.querySelector('.setting-pick-content').style.display = 'none';
-                            } else {
+                            } 
+                            else {
                                 document.querySelector('.setting-pick-content').style.display = 'block';
                             }
                             
