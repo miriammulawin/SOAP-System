@@ -308,63 +308,156 @@
                 <span class="assessment-text"><i class="material-icons-outlined">assessment</i> &nbsp;Assessment</span>
             </div>
             <div class="right-section">
-                <input type="text" placeholder="Search...">
-                <i class="fas fa-search"></i>
-                <i class="fas fa-bell"></i>
+                <input type="text" id="search" placeholder="Search...">
+                <i class="fas fa-search" onclick="searchAssessment()"></i>
             </div>
         </div>
+
+        <!-- Assessment Form -->
         <div class="assessment-content">
-            <div class="patient-info">
-                <div class="section-header">Patient Information</div>
+            <h3>New Assessment</h3>
+            <form id="assessmentForm">
                 <div class="input-group">
-                    <input type="text" class="input-field" placeholder="First Name">
-                    <input type="text" class="input-field" placeholder="Last Name">
-                </div>
-                <div class="input-group">
-                    <input type="number" class="input-field" placeholder="Age">
-                    <input type="text" class="input-field" placeholder="Gender">
+                    <input type="number" id="appointmentID" placeholder="Appointment ID" required>
                 </div>
                 <div class="input-group">
-                    <input type="number" class="input-field" placeholder="Assessment Date">
-                    <input type="number" class="input-field" placeholder="Birth Date">
+                    <textarea id="diagnosis" placeholder="Diagnosis" required></textarea>
                 </div>
                 <div class="input-group">
-                    <textarea class="input-field symptoms" placeholder="Symptoms"></textarea>
-                    <textarea class="input-field medical-history" placeholder="Medical History"></textarea>
+                    <textarea id="prescription" placeholder="Prescription" required></textarea>
                 </div>
-            </div>
-            <div class="physical-exam">
-                <div class="section-header">Physical Examination</div>
-                <div class="input-group">
-                    <input type="number" class="input-field" placeholder="Height (cm)">
-                    <input type="number" class="input-field" placeholder="Weight (kg)">
+                <div class="buttons-group">
+                    <button type="submit" class="save-btn">Save</button>
+                    <button type="reset" class="cancel-btn">Cancel</button>
                 </div>
-                <div class="input-group">
-                    <input type="text" class="input-field" placeholder="Temperature (°C)">
-                    <input type="text" class="input-field " placeholder="Heart Rate">
-                    <input type="text" class="input-field" placeholder="Blood Pressure">
-                </div>
-            </div>
-            <div class="diagnostic">
-                <div class="section-header">Diagnostic Results</div>
-                <div class="input-group">
-                    <input type="text" class="input-field" placeholder="Test Name">
-                    <input type="text" class="input-field" placeholder="Test Result">
-                </div>
-                <div class="diagnosis">
-                    <div class="section-header">Diagnosis</div>
-                    <div class="input-group">
-                        <textarea class="input-field diagnosis" placeholder="Diagnosis"></textarea>
-                        <textarea class="input-field prescriptions" placeholder="Prescriptions"></textarea>
-                        <div class="buttons-group">
-                            <button class="save-btn">Save</button>
-                            <button class="cancel-btn">Cancel</button>
-                            <button class="delete-btn">Delete</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </form>
+        </div>
+
+        <!-- Assessment Table -->
+        <div class="assessment-content">
+            <h3>Assessment Records</h3>
+            <table border="1" id="assessmentTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Appointment ID</th>
+                        <th>Diagnosis</th>
+                        <th>Prescription</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </main>
+
+    <script>
+        const API_URL = "http://localhost/Gapas/backEnd/assessment.php";
+
+        // Fetch and display assessments
+        function fetchAssessments() {
+            fetch(API_URL)
+                .then(response => response.json())
+                .then(data => {
+                    let tableBody = document.querySelector("#assessmentTable tbody");
+                    tableBody.innerHTML = "";
+                    data.forEach(assessment => {
+                        tableBody.innerHTML += `
+                            <tr>
+                                <td>${assessment.assessmentID}</td>
+                                <td>${assessment.appointmentID}</td>
+                                <td>${assessment.diagnosis}</td>
+                                <td>${assessment.prescription}</td>
+                                <td>
+                                    <button onclick="editAssessment(${assessment.assessmentID})">Edit</button>
+                                    <button onclick="deleteAssessment(${assessment.assessmentID})">Delete</button>
+                                </td>
+                            </tr>`;
+                    });
+                })
+                .catch(error => console.error("Error fetching assessments:", error));
+        }
+
+        // Submit form to add new assessment
+        document.getElementById("assessmentForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            let formData = {
+                appointmentID: document.getElementById("appointmentID").value,
+                diagnosis: document.getElementById("diagnosis").value,
+                prescription: document.getElementById("prescription").value
+            };
+
+            fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                fetchAssessments();
+                document.getElementById("assessmentForm").reset();
+            })
+            .catch(error => console.error("Error adding assessment:", error));
+        });
+
+        // Edit an assessment (prefill form)
+        function editAssessment(assessmentID) {
+            fetch(`${API_URL}?assessmentID=${assessmentID}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("appointmentID").value = data.appointmentID;
+                    document.getElementById("diagnosis").value = data.diagnosis;
+                    document.getElementById("prescription").value = data.prescription;
+
+                    let saveButton = document.querySelector("#assessmentForm button");
+                    saveButton.textContent = "Update";
+                    saveButton.onclick = function () { updateAssessment(assessmentID); };
+                })
+                .catch(error => console.error("Error fetching assessment:", error));
+        }
+
+        // Update assessment
+        function updateAssessment(assessmentID) {
+            let formData = {
+                assessmentID: assessmentID,
+                diagnosis: document.getElementById("diagnosis").value,
+                prescription: document.getElementById("prescription").value
+            };
+
+            fetch(API_URL, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                fetchAssessments();
+                document.querySelector("#assessmentForm button").textContent = "Save";
+                document.getElementById("assessmentForm").reset();
+            })
+            .catch(error => console.error("Error updating assessment:", error));
+        }
+
+        // Delete assessment
+        function deleteAssessment(assessmentID) {
+            fetch(API_URL, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ assessmentID: assessmentID })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                fetchAssessments();
+            })
+            .catch(error => console.error("Error deleting assessment:", error));
+        }
+
+        // Load assessments on page load
+        document.addEventListener("DOMContentLoaded", fetchAssessments);
+    </script>
 </body>
 </html>
