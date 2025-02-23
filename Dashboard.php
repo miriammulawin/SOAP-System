@@ -193,7 +193,7 @@
         .test-options {
             display: flex;
             justify-content: space-between;
-            margin-top: 5px;
+            margin-top: 20px;
             width: 100%;
             padding: 10px;
             margin-left: -1.4vh;
@@ -735,6 +735,31 @@ function showPopup(message, type) {
         window.onload = function() {
             loadPatientRecords();
         };
+    </script>
+
+<script>
+    document.querySelector(".panel .right-section input[type='text']").addEventListener("input", function() {
+    let searchTerm = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#testTable table tr");
+
+    rows.forEach(row => {
+        let cells = row.querySelectorAll("td");
+        let matchFound = false;
+
+        cells.forEach(cell => {
+            if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                matchFound = true;
+            }
+        });
+
+        if (matchFound) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+});
+
     </script>
 </body>
 </html>

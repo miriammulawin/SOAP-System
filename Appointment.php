@@ -109,7 +109,7 @@
             margin-left: 240px;
             background-color: white;
             width: 160vh;
-            height: 100vh;
+            height: 110vh;
             padding: 20px;
         }
         .panel {
@@ -298,7 +298,7 @@
             background-color: #218838;
         }
         button.canceled {
-            background-color: #dc3545;
+            background-color:rgb(137, 21, 32);
             color: white;
             border: 2px solid #dc3545;
         }
@@ -553,6 +553,7 @@
             padding: 10px;
             text-align: left;
         }
+        
     
     </style>
 </head>
@@ -614,7 +615,6 @@
 <div id="searchModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h2>Search Patients</h2>
         <input type="text" id="searchInput" onkeyup="searchPatients()" placeholder="Search for patients...">
         <table id="patientsTable">
             <thead>
@@ -832,9 +832,9 @@ function filterByStatus(status) {
     // Update the URL with the selected status
     const url = new URL(window.location.href);
     if (status) {
-        url.searchParams.set('status', status); 
+        url.searchParams.set('status', status);  // Add the status filter to the URL
     } else {
-        url.searchParams.delete('status');  
+        url.searchParams.delete('status');  // Remove the filter if no status
     }
     window.location.href = url;  
 }

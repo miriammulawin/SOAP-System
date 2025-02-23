@@ -5,9 +5,9 @@ $password = "091203";
 $database = "MedicalSystem";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli ($servername, $username, $password, $database);
 
-// Check connection
+// Check connection 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -42,10 +42,13 @@ $result = $stmt->get_result();
 // Check if there are any results
 if ($result->num_rows > 0) {
     echo "<style>
+
             table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; }
             th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-            th { background-color: #4CAF50; color: white; }
+            th { background-color:rgb(39, 69, 133); color: white; }
             tr:nth-child(even) { background-color: #f2f2f2; }
+        
+
           </style>";
 
     echo "<table>
@@ -59,20 +62,28 @@ if ($result->num_rows > 0) {
                 <th>Status</th>
             </tr>";
 
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>
-                <td>" . htmlspecialchars($row['appointmentID']) . "</td>
-                <td>" . htmlspecialchars($row['firstName']) . "</td>
-                <td>" . htmlspecialchars($row['lastName']) . "</td>
-                <td>" . htmlspecialchars($row['diagnosticTest']) . "</td>
-                <td>" . (!empty($row['diagnosticResult']) ? htmlspecialchars($row['diagnosticResult']) : 'Pending') . "</td>
-                <td>" . date('F d, Y', strtotime($row['appointmentDate'])) . "</td>
-                <td>
-                    <button onclick='updateStatus(" . $row['appointmentID'] . ", \"Finished\")' " . ($row['appointmentStatus'] == 'Finished' ? 'disabled' : '') . ">Finished</button>
-                    <button onclick='updateStatus(" . $row['appointmentID'] . ", \"Cancelled\")' " . ($row['appointmentStatus'] == 'Cancelled' ? 'disabled' : '') . ">Cancelled</button>
-                </td>
-            </tr>";
-    }
+            while ($row = $result->fetch_assoc()) {
+                $appointmentID = htmlspecialchars($row['appointmentID']);
+                $appointmentStatus = $row['appointmentStatus'];
+            
+                // Disable both buttons when the status is Finished or Cancelled
+                $disableFinished = ($appointmentStatus == 'Finished' || $appointmentStatus == 'Cancelled') ? 'disabled' : '';
+                $disableCancelled = ($appointmentStatus == 'Finished' || $appointmentStatus == 'Cancelled') ? 'disabled' : '';
+            
+                echo "<tr>
+                        <td>" . $appointmentID . "</td>
+                        <td>" . htmlspecialchars($row['firstName']) . "</td>
+                        <td>" . htmlspecialchars($row['lastName']) . "</td>
+                        <td>" . htmlspecialchars($row['diagnosticTest']) . "</td>
+                        <td>" . (!empty($row['diagnosticResult']) ? htmlspecialchars($row['diagnosticResult']) : 'Pending') . "</td>
+                        <td>" . date('F d, Y', strtotime($row['appointmentDate'])) . "</td>
+                        <td>
+                            <button onclick='updateStatus($appointmentID, \"Finished\")' $disableFinished>Finished</button>
+                            <button onclick='updateStatus($appointmentID, \"Cancelled\")' $disableCancelled>Cancelled</button>
+                        </td>
+                    </tr>";
+            }
+            
 
     echo "</table>";
 } else {
