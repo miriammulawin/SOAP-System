@@ -695,7 +695,7 @@ function displayPatients(patients) {
     });
 }
 
-// Function to Handle Patient Selection
+// Function to handle Patient Selection
 function selectPatient(patient, row) {
     console.log("Selected Patient:", patient);
 
@@ -704,6 +704,9 @@ function selectPatient(patient, row) {
 
     // Show Selected Patient's Name
     document.getElementById("selectedPatient").innerText = `${patient.firstName} ${patient.lastName}`;
+
+    // Fetch patient's diagnostic information
+    fetchPatientDiagnosticInfo(patient.patientID);
 
     // Highlight Selected Row (Reset All First)
     document.querySelectorAll("#patientsTable tbody tr").forEach(tr => {
@@ -716,6 +719,29 @@ function selectPatient(patient, row) {
     // Enable the "Add Appointment" Button
     document.getElementById("appointmentDateSection").style.display = "block";
     document.getElementById("addAppointmentBtn").disabled = false;
+}
+
+// Function to fetch patient's diagnosticTest and diagnosticResult
+function fetchPatientDiagnosticInfo(patientID) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "getPatientDiagnostics.php", true);  // Use the new PHP file
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onload = function() {
+        if (xhr.status == 200) {
+            const data = JSON.parse(xhr.responseText);
+
+            if (data.diagnosticTest) {
+                // Pre-fill the diagnostic test and result fields
+                document.getElementById("diagnosticTest").value = data.diagnosticTest;
+                document.getElementById("diagnosticResult").value = data.diagnosticResult === 'Not Available' ? '' : data.diagnosticResult;
+            } else {
+                alert("Error fetching patient diagnostic information.");
+            }
+        } else {
+            alert("Failed to retrieve diagnostic information.");
+        }
+    };
+    xhr.send(`patientID=${patientID}`); // Send the patientID to fetch diagnostic data
 }
 
 // Function to Add Appointment
@@ -740,14 +766,31 @@ function addAppointment() {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onload = function() {
         if (xhr.status === 200) {
+            const appointment = JSON.parse(xhr.responseText);
             alert("Appointment added successfully!");
             closeModal(); // Close Modal After Adding
-            fetchAppointments(); // Refresh Appointment List
+            addAppointmentToTable(appointment); // Add the new appointment to the table
         } else {
             alert("Error adding appointment.");
         }
     };
     xhr.send(`patientID=${window.selectedPatientID}&appointmentDate=${appointmentDate}`);
+}
+
+// Function to add appointment to the table
+function addAppointmentToTable(appointment) {
+    const tableBody = document.querySelector("#appointmentTable tbody");
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td>${appointment.appointmentID}</td>
+        <td>${appointment.firstName} ${appointment.lastName}</td>
+        <td>${appointment.diagnosticTest}</td>
+        <td>${appointment.diagnosticResult || 'Pending'}</td>
+         <td>${new Date(appointment.appointmentDate).toLocaleDateString()}</td> <!-- Display Date Only -->
+        <td>${appointment.appointmentStatus || 'Pending'}</td>
+    `;
+    tableBody.appendChild(row);
 }
 
 // Fetch and display appointments
