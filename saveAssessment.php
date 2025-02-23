@@ -3,7 +3,7 @@
 $host = 'localhost'; // Your database host
 $dbname = 'MedicalSystem'; // Your database name
 $username = 'root'; // Your database username
-$password = ""; // Your database password
+$password = "ravanera1124"; // Your database password
 
 // Create a new connection
 $conn = new mysqli($host, $username, $password, $dbname);

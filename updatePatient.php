@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli("localhost", "root", "12345", "MedicalSystem");
+$conn = new mysqli("localhost", "root", "ravanera1124", "MedicalSystem");
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

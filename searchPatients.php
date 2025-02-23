@@ -3,7 +3,7 @@ if (isset($_GET['searchQuery'])) {
     $searchQuery = $_GET['searchQuery'];
 
     // Database connection
-    $conn = new mysqli('localhost', 'root', '091203', 'MedicalSystem');
+    $conn = new mysqli('localhost', 'root', 'ravanera1124', 'MedicalSystem');
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);

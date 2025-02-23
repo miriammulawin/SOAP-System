@@ -4,7 +4,7 @@ ini_set('display_errors', 1); // Show errors
 
 $servername = "localhost";
 $username = "root";
-$password = "12345";
+$password = "ravanera1124";
 $dbname = "MedicalSystem";
 
 $conn = new mysqli($servername, $username, $password, $dbname);

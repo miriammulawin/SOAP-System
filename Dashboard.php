@@ -9,7 +9,7 @@
     function connectDB() {
         $servername = "localhost";
         $username = "root";
-        $password = "12345";
+        $password = "ravanera1124";
         $dbname = "MedicalSystem";
         
         try {

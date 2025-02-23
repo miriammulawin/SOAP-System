@@ -3,7 +3,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $patientID = $_POST['patientID'];
 
     // Database Connection
-    $conn = new mysqli('localhost', 'root', '12345', 'MedicalSystem');
+    $conn = new mysqli('localhost', 'root', 'ravanera1124', 'MedicalSystem');
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);

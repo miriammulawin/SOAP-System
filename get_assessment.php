@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli("localhost", "root", "091203", "MedicalSystem");
+$conn = new mysqli("localhost", "root", "ravanera1124", "MedicalSystem");
 
 if (isset($_GET['appointmentID'])) {
     $appointmentID = $_GET['appointmentID'];
