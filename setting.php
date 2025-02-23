@@ -27,14 +27,16 @@
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         $fullName = $user['FirstName'];
+        
         if (!empty($user['LastName'])) {
             $fullName .= " " . $user['LastName'];
         }
-    } else {
+    } 
+    else {
         $fullName = "User";
     }
     
-     if (isset($_GET['action']) && $_GET['action'] == 'logout' && isset($_GET['confirm']) && $_GET['confirm'] == 'yes') {
+    if (isset($_GET['action']) && $_GET['action'] == 'logout' && isset($_GET['confirm']) && $_GET['confirm'] == 'yes') {
         $_SESSION = array();
         
         session_destroy();
@@ -52,7 +54,8 @@
         
         if ($result->num_rows > 0) {
             return $result->fetch_assoc();
-        } else {
+        } 
+        else {
             return false;
         }
     }
@@ -62,7 +65,8 @@
 
     if (!$userData) {
         $fullName = "User";
-    } else {
+    } 
+    else {
         $fullName = $userData['FirstName'];
         if (!empty($userData['LastName'])) {
             $fullName .= " " . $userData['LastName'];
@@ -83,7 +87,8 @@
         
         if (empty($email)) {
             $errors[] = "Email is required";
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        } 
+        elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = "Invalid email format";
         }
         
@@ -110,7 +115,8 @@
                         window.location.href='setting.php';
                     </script>";
                 exit();
-            } else {
+            } 
+            else {
                 $updateError = "Failed to update profile: " . $conn->error;
             }
         }
@@ -577,7 +583,6 @@
                     }
                 }
 
-                /* Utility classes */
                 .d-flex {
                     display: flex;
                 }
@@ -816,7 +821,8 @@
                             
                             if (window.innerWidth < 1024) {
                                 document.querySelector('.setting-pick-content').style.display = 'none';
-                            } else {
+                            } 
+                            else {
                                 document.querySelector('.setting-pick-content').style.display = 'block';
                             }
                             
