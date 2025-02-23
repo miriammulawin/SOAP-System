@@ -592,27 +592,25 @@
             </div>
 
             <div class="appointment-container">
-                <div class="appointment-text">
-                    <button class="upcoming">Upcoming</button>
-                    <button class="finished">Finished</button>
-                    <button class="canceled">Canceled</button>
+            <div class="appointment-text">
+            <button class="upcoming active" onclick="filterByStatus('Upcoming')">Upcoming</button>
+<button class="finished" onclick="filterByStatus('Finished')">Finished</button>
+<button class="cancelled" onclick="filterByStatus('Cancelled')">Cancelled</button>
 
-                    <div class="action-icons">
-                    <i onclick="openModal()" class="fas fa-circle-plus"></i>
-                        <i class="fas fa-edit"></i>
-                        <i class="fas fa-trash"></i>
-                        <i class="fas fa-th grid-icon"></i>
-                    </div>
+    <div class="action-icons">
+        <i onclick="openModal()" class="fas fa-circle-plus"></i>
+        <i class="fas fa-edit"></i>
+        <i class="fas fa-trash"></i>
+        <i class="fas fa-th grid-icon"></i>
+    </div>
+</div>
 
-                </div>
-        
-            </div>
-            <div class="appointment-content">
-            <h4>Appointment</h1>
-            <?php include 'appointmentRecords.php'; ?>
-            </div>
-           
- <!-- Modal Structure -->
+<div class="appointment-content">
+    <h4>Appointment</h4> <!-- Fixed tag from h1 to h4 -->
+    <?php include 'appointmentRecords.php'; ?>
+</div>
+
+<!-- Modal Structure -->
 <div id="searchModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
@@ -644,7 +642,6 @@
         </div>
     </div>
 </div>
-
 
 <script>
 // Open Modal and Fetch Patients
@@ -787,7 +784,7 @@ function addAppointmentToTable(appointment) {
         <td>${appointment.firstName} ${appointment.lastName}</td>
         <td>${appointment.diagnosticTest}</td>
         <td>${appointment.diagnosticResult || 'Pending'}</td>
-         <td>${new Date(appointment.appointmentDate).toLocaleDateString()}</td> <!-- Display Date Only -->
+        <td>${new Date(appointment.appointmentDate).toLocaleDateString()}</td> <!-- Display Date Only -->
         <td>${appointment.appointmentStatus || 'Pending'}</td>
     `;
     tableBody.appendChild(row);
@@ -806,40 +803,42 @@ function fetchAppointments() {
     xhr.send();
 }
 
-function displayAppointments(appointments) {
-    let appointmentsContent = '';
-    appointments.forEach(appointment => {
-        appointmentsContent += `
-            <tr>
-                <td>${appointment.appointmentID}</td>
-                <td>${appointment.patientID}</td>
-                <td>${appointment.diagnosticTest}</td>
-                <td>${appointment.diagnosticResult}</td>
-                <td>${appointment.appointmentDate}</td>
-                <td>${appointment.appointmentStatus}</td>
-            </tr>
-        `;
-    });
-    document.querySelector('#appointmentTable tbody').innerHTML = appointmentsContent;
+// Function to update the status of the appointment
+function updateStatus(appointmentID, status) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "updateStatus.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            alert("Appointment status updated successfully.");
+            location.reload();  // Refresh the page to reflect the updated status
+        } else {
+            alert("Error updating status.");
+        }
+    };
+
+    xhr.send(`appointmentID=${appointmentID}&status=${status}`);
+}
+function filterByStatus(status) {
+    const buttons = document.querySelectorAll(".appointment-text button");
+
+    // Remove active class from all buttons
+    buttons.forEach(button => button.classList.remove("active"));
+
+    // Add active class to the clicked button
+    document.querySelector(`.appointment-text .${status.toLowerCase()}`).classList.add("active");
+
+    // Update the URL with the selected status
+    const url = new URL(window.location.href);
+    if (status) {
+        url.searchParams.set('status', status);  // Add the status filter to the URL
+    } else {
+        url.searchParams.delete('status');  // Remove the filter if no status
+    }
+    window.location.href = url;  // Reload the page with the updated filter
 }
 
-
-// Search functionality
-function searchPatients() {
-    const input = document.getElementById("searchInput").value.toLowerCase();
-    const filteredPatients = window.patients.filter(patient => {
-        return (
-            patient.firstName.toLowerCase().includes(input) ||
-            patient.lastName.toLowerCase().includes(input) ||
-            patient.patientID.toLowerCase().includes(input)
-        );
-    });
-    displayPatients(filteredPatients);  // Display filtered results
-}
 </script>
-
-
 </body>
 </html>
-
-
