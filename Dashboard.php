@@ -67,7 +67,7 @@
             <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-            <title>Dashboard</title>
+            <title>Medical System: Dashboard</title>
 
             <style>
                 body {
@@ -563,7 +563,7 @@
 
                 <div class="dashboard-content" id="dashboard">
                     <div class="test-table" id="testTable">
-                    <img class="bg" id="noTableImage" src="../SOAP/Images/Login-BG.jpg" alt="No data available">
+                    <img class="bg" id="noTableImage" src="../SOAP-System/Images/Login-BG.jpg" alt="No data available">
                     </div>
                 </div>
             </div>
