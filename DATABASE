@@ -83,4 +83,8 @@ CREATE TABLE assessment (
     prescription TEXT NOT NULL,
     assessmentDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (appointmentID) REFERENCES appointment(appointmentID) ON DELETE CASCADE
+<<<<<<< HEAD
 );
+=======
+);
+>>>>>>> Backend
