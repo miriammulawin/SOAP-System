@@ -9,6 +9,183 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <title>Dashboard</title>
+    
+    <script>
+
+function searchPatient() {
+    let searchQuery = document.getElementById('searchQuery').value;
+    if (!searchQuery) {
+        alert("Please enter a search term");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('search', '1');
+    formData.append('searchQuery', searchQuery);
+
+    fetch('assessment_backend.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Search response:', data);
+        
+        if (data.message) {
+            alert(data.message);
+        } else {
+            // Patient Information
+            document.getElementById('patientID').value = data.patientID || '';
+            document.getElementById('firstName').value = data.firstName || '';
+            document.getElementById('lastName').value = data.lastName || '';
+            document.getElementById('age').value = data.age || '';
+            document.getElementById('gender').value = data.gender || '';
+            document.getElementById('birthDate').value = data.birthday || '';
+            document.getElementById('symptoms').value = data.symptoms || '';
+            document.getElementById('medicalHistory').value = data.medicalHistory || '';
+
+            // Physical Examination
+            document.getElementById('height').value = data.height || '';
+            document.getElementById('weight').value = data.weight || '';
+            document.getElementById('temperature').value = data.temperature || '';
+            document.getElementById('heartRate').value = data.heartRate || '';
+            document.getElementById('bloodPressure').value = data.bloodPressure || '';
+
+            // Diagnostic Results
+            document.getElementById('testName').value = data.diagnosticTest || '';
+            
+            // Handle test results
+            let testResultText = '';
+            if (data.diagnosticTest !== 'Not Applicable') {
+                const testType = data.diagnosticTest.toLowerCase() + 'Tests';
+                testResultText = data[testType] || data.testResult || '';
+            }
+            document.getElementById('testResult').value = testResultText;
+
+            // Assessment Details
+            document.getElementById('assessmentID').value = data.assessmentID || '';
+            document.getElementById('diagnosis').value = data.diagnosis || '';
+            document.getElementById('prescriptions').value = data.prescription || '';
+        }
+    })
+    .catch(error => {
+        console.error('Search error:', error);
+        alert('An error occurred while searching. Please try again.');
+    });
+}
+
+function saveAssessment() {
+    // Get values from form
+    const formData = new FormData();
+    formData.append('save', '1');
+    
+    // Required fields from the form
+    const formFields = {
+        'patientID': document.getElementById('patientID').value,
+        'assessmentID': document.getElementById('assessmentID').value,
+        'age': document.getElementById('age').value,
+        'gender': document.getElementById('gender').value,
+        'birthDate': document.getElementById('birthDate').value,
+        'symptoms': document.getElementById('symptoms').value,
+        'medicalHistory': document.getElementById('medicalHistory').value,
+        'height': document.getElementById('height').value,
+        'weight': document.getElementById('weight').value,
+        'temperature': document.getElementById('temperature').value,
+        'heartRate': document.getElementById('heartRate').value,
+        'bloodPressure': document.getElementById('bloodPressure').value,
+        'diagnosticTest': document.getElementById('testName').value,
+        'diagnosis': document.getElementById('diagnosis').value,
+        'prescription': document.getElementById('prescriptions').value // Note: matches the HTML id
+    };
+
+    // Validate required fields
+    if (!formFields.patientID) {
+        alert("Patient ID is required. Please search for a patient first.");
+        return;
+    }
+
+    // Append all form fields to FormData
+    for (const [key, value] of Object.entries(formFields)) {
+        formData.append(key, value || ''); // Send empty string if value is null/undefined
+    }
+
+    // Debug log
+    console.log('Sending data:', Object.fromEntries(formData));
+
+    fetch('assessment_backend.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text(); // Get the raw response text first
+    })
+    .then(text => {
+        console.log('Raw response:', text); // Debug log
+        try {
+            const data = JSON.parse(text);
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            alert(data.success || "Assessment saved successfully!");
+        } catch (e) {
+            throw new Error('Invalid JSON response: ' + text);
+        }
+    })
+    .catch(error => {
+        console.error('Save error:', error);
+        alert('An error occurred while saving: ' + error.message);
+    });
+}
+
+
+function deleteAssessment() {
+    let confirmation = confirm("Are you sure you want to delete this assessment?");
+    if (!confirmation) return;
+
+    let assessmentID = document.getElementById('assessmentID').value;
+
+    if (!assessmentID) {
+        alert("Assessment ID is missing!");
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append("delete", 1);
+    formData.append("assessmentID", assessmentID);
+
+    fetch('assessment_backend.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text()) // Log response for debugging
+    .then(data => {
+        console.log("Raw response:", data);
+        try {
+            let jsonData = JSON.parse(data);
+            if (jsonData.error) {
+                alert("Error: " + jsonData.error);
+            } else {
+                alert(jsonData.success || "Assessment deleted successfully!");
+                location.reload();
+            }
+        } catch (e) {
+            alert("Invalid JSON response from server: " + data);
+        }
+    })
+    .catch(error => {
+        console.error("Error during fetch:", error);
+        alert("An error occurred. Please check the console for details.");
+    });
+}
+
+function clearForm() {
+    document.querySelectorAll('.input-field, textarea').forEach(input => input.value = "");
+}
+    </script>
+    
     <style>
         body {
             background-color: #97CADB;
@@ -107,7 +284,7 @@
             margin-top: 60px;
             margin-left: 240px;
             background-color: white;
-            width: 166vh;
+            width: 146vh;
             height: auto;
             padding: 20px;
             box-sizing: border-box;
@@ -284,7 +461,8 @@
     </style>
 </head>
 <body>
-    <header>
+<body>
+<header>
         <h2>MEDICARE</h2>
     </header>
     <aside>
@@ -308,61 +486,69 @@
                 <span class="assessment-text"><i class="material-icons-outlined">assessment</i> &nbsp;Assessment</span>
             </div>
             <div class="right-section">
-                <input type="text" placeholder="Search...">
-                <i class="fas fa-search"></i>
+                <input type="text" id="searchQuery" placeholder="Search...">
+                <button onclick="searchPatient()">Search</button>
                 <i class="fas fa-bell"></i>
             </div>
         </div>
         <div class="assessment-content">
-            <div class="patient-info">
-                <div class="section-header">Patient Information</div>
-                <div class="input-group">
-                    <input type="text" class="input-field" placeholder="First Name">
-                    <input type="text" class="input-field" placeholder="Last Name">
-                </div>
-                <div class="input-group">
-                    <input type="number" class="input-field" placeholder="Age">
-                    <input type="text" class="input-field" placeholder="Gender">
-                </div>
-                <div class="input-group">
-                    <input type="number" class="input-field" placeholder="Assessment Date">
-                    <input type="number" class="input-field" placeholder="Birth Date">
-                </div>
-                <div class="input-group">
-                    <textarea class="input-field symptoms" placeholder="Symptoms"></textarea>
-                    <textarea class="input-field medical-history" placeholder="Medical History"></textarea>
-                </div>
+    <div class="patient-info">
+        <div class="section-header">Patient Information</div>
+        <input type="hidden" id="patientID" name="patientID">
+        <input type="hidden" id="assessmentID" name="assessmentID">
+        <div class="input-group">
+        <input type="text" class="input-field" id="firstName" readonly placeholder="First Name">
+        <input type="text" class="input-field" id="lastName" readonly placeholder="Last Name">
+        </div>
+        <div class="input-group">
+            <input type="number" class="input-field" id="age" readonly placeholder="Age">
+            <input type="text" class="input-field" id="gender" readonly placeholder="Gender">
+        </div>
+        <div class="input-group">
+            <input type="date" class="input-field" id="birthDate" readonly placeholder="Birth Date">
+        </div>
+        <div class="input-group">
+            <textarea class="input-field" id="symptoms" readonly placeholder="Symptoms"></textarea>
+            <textarea class="input-field" id="medicalHistory" readonly placeholder="Medical History"></textarea>
+        </div>
+    </div>
+
+    <div class="physical-exam">
+        <div class="section-header">Physical Examination</div>
+        <div class="input-group">
+            <input type="number" class="input-field" id="height" readonly placeholder="Height (cm)">
+            <input type="number" class="input-field" id="weight" readonly placeholder="Weight (kg)">
+        </div>
+        <div class="input-group">
+            <input type="text" class="input-field" id="temperature" readonly placeholder="Temperature (°C)">
+            <input type="text" class="input-field" id="heartRate" readonly placeholder="Heart Rate">
+            <input type="text" class="input-field" id="bloodPressure" readonly placeholder="Blood Pressure">
+        </div>
+    </div>
+
+    <div class="diagnostic">
+        <div class="section-header">Diagnostic Results</div>
+        <div class="test-results" id="testResultsContainer">
+            <div class="input-group">
+            <input type="text" class="input-field" id="testName" placeholder="Test Name">
+            <input type="text" class="input-field" id="testResult" placeholder="Test Result">
             </div>
-            <div class="physical-exam">
-                <div class="section-header">Physical Examination</div>
-                <div class="input-group">
-                    <input type="number" class="input-field" placeholder="Height (cm)">
-                    <input type="number" class="input-field" placeholder="Weight (kg)">
-                </div>
-                <div class="input-group">
-                    <input type="text" class="input-field" placeholder="Temperature (°C)">
-                    <input type="text" class="input-field " placeholder="Heart Rate">
-                    <input type="text" class="input-field" placeholder="Blood Pressure">
-                </div>
-            </div>
-            <div class="diagnostic">
-                <div class="section-header">Diagnostic Results</div>
-                <div class="input-group">
-                    <input type="text" class="input-field" placeholder="Test Name">
-                    <input type="text" class="input-field" placeholder="Test Result">
-                </div>
-                <div class="diagnosis">
-                    <div class="section-header">Diagnosis</div>
-                    <div class="input-group">
-                        <textarea class="input-field diagnosis" placeholder="Diagnosis"></textarea>
-                        <textarea class="input-field prescriptions" placeholder="Prescriptions"></textarea>
-                        <div class="buttons-group">
-                            <button class="save-btn">Save</button>
-                            <button class="cancel-btn">Cancel</button>
-                            <button class="delete-btn">Delete</button>
-                        </div>
-                    </div>
-                </div>
+        </div>
+    </div>
+
+    <div class="diagnosis">
+        <div class="section-header">Diagnosis</div>
+        <div class="input-group">
+            <textarea class="input-field" id="diagnosis" placeholder="Diagnosis"></textarea>
+            <textarea class="input-field" id="prescriptions" placeholder="Prescriptions"></textarea>
+        </div>
+        <div class="buttons-group">
+        <button class="save-btn" onclick="saveAssessment()">Save</button>
+            <button class="cancel-btn" onclick="clearForm()">Cancel</button>
+            <button class="delete-btn" onclick="deleteAssessment()">Delete</button>
+        </div>
+    </div>
+</div>
             </div>
         </div>
     </main>
